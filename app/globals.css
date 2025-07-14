@@ -119,12 +119,17 @@
   }
   html {
     height: 100%;
+    overflow: hidden;
+    width: 100%;
   }
   body {
     @apply bg-background text-foreground;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    inset: 0;
     min-height: -webkit-fill-available;
     background-image: url('/back2.png');
     background-size: cover;
@@ -208,6 +213,18 @@
       0 0 60px var(--divine-shadow),
       0 6px 16px rgba(0, 0, 0, 0.3);
   }
+}
+
+/* Hide scrollbar utilities */
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 @keyframes renaissance-glow-pulse {

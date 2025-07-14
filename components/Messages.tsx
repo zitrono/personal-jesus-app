@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/utils";
 import { useVoice } from "@humeai/voice-react";
-import Expressions from "./Expressions";
 import { AnimatePresence, motion } from "framer-motion";
 import { ComponentRef, forwardRef } from "react";
 
@@ -14,11 +13,11 @@ const Messages = forwardRef<
   return (
     <motion.div
       layoutScroll
-      className={"grow overflow-auto p-4 pt-24"}
+      className={"grow overflow-auto p-2 pt-24 no-scrollbar"}
       ref={ref}
     >
       <motion.div
-        className={"max-w-2xl mx-auto w-full flex flex-col gap-4 pb-24"}
+        className={"max-w-2xl mx-auto w-full flex flex-col gap-2 pb-24"}
       >
         <AnimatePresence mode={"popLayout"}>
           {messages.map((msg, index) => {
@@ -31,8 +30,8 @@ const Messages = forwardRef<
                   key={msg.type + index}
                   className={cn(
                     "w-[80%]",
-                    "bg-card",
-                    "border border-border rounded-xl",
+                    "bg-card/40 backdrop-blur-sm",
+                    "border border-border/30 rounded-xl",
                     msg.type === "user_message" ? "ml-auto" : ""
                   )}
                   initial={{
@@ -48,7 +47,7 @@ const Messages = forwardRef<
                     y: 0,
                   }}
                 >
-                  <div className={"flex items-center justify-between pt-4 px-3"}>
+                  <div className={"flex items-center justify-between pt-2 px-3"}>
                     <div
                       className={cn(
                         "text-xs capitalize font-medium leading-none opacity-50 tracking-tight"
@@ -68,8 +67,7 @@ const Messages = forwardRef<
                       })}
                     </div>
                   </div>
-                  <div className={"pb-3 px-3"}>{msg.message.content}</div>
-                  <Expressions values={{ ...msg.models.prosody?.scores }} />
+                  <div className={"pb-2 px-3"}>{msg.message.content}</div>
                 </motion.div>
               );
             }

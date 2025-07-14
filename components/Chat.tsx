@@ -21,18 +21,14 @@ export default function ClientComponent({
     setIsClient(true);
   }, []);
 
-  // optional: use configId from environment variable
-  const configId = process.env['NEXT_PUBLIC_HUME_CONFIG_ID'];
-  
   return (
     <div
       className={
-        "relative grow flex flex-col mx-auto w-full overflow-hidden h-[0px]"
+        "relative grow flex flex-col mx-auto w-full overflow-hidden h-full"
       }
     >
       <VoiceProviderWithTone
         auth={{ type: "accessToken", value: accessToken }}
-        configId={configId}
         onMessage={() => {
           if (!isClient) return;
           
@@ -51,8 +47,8 @@ export default function ClientComponent({
             }
           }, 200);
         }}
-        onError={(error) => {
-          toast.error(error.message);
+        onError={(sin) => {
+          toast.error(sin.message);
         }}
       >
         <Messages ref={ref} />

@@ -1,61 +1,93 @@
 import { useVoice } from "@humeai/voice-react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 /**
  * Custom hook that wraps the original useVoice hook to play connection tone
- * at the optimal timing - right after microphone permission is granted
- * but before Hume starts processing audio
+ * before establishing connection to avoid audio feedback
  */
 export const useVoiceWithTone = () => {
   const originalVoice = useVoice();
+  const { theme } = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
   
-  // Override the connect method to inject connection tone
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+      return mobileRegex.test(userAgent.toLowerCase());
+    };
+    
+    setIsMobile(checkMobile());
+  }, []);
+  
+  // Enhanced connect method with dial tone played first
   const connect = useCallback(async () => {
     try {
-      // For iOS, we need to be very careful about user gesture context
-      // Let's try the original approach but with better error handling
+      // Diagnostic logging
+      console.log('[useVoiceWithTone] Connect initiated:', {
+        isMobile,
+        theme,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+      });
       
-      // Create audio element immediately to use user gesture
-      const audio = new Audio('/personal_jesus_connect_tone.wav');
-      
-      // Request microphone permission
-      const micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      
-      // Play the connection tone
-      try {
-        await audio.play();
-        
-        // Wait for audio to finish or continue after a short delay
-        await new Promise<void>(resolve => {
-          audio.addEventListener('ended', () => {
-            resolve();
-          });
-          // Fallback timeout in case audio doesn't play
-          setTimeout(() => {
-            resolve();
-          }, 2000);
-        });
-      } catch (audioError) {
-        console.error('The sacred connection tone is being a little shy today:', audioError);
-        // Continue even if tone fails to play
+      // Add extra delay for mobile dark mode to ensure WebSocket readiness
+      if (isMobile && theme === 'dark') {
+        console.log('[useVoiceWithTone] Mobile dark mode detected, adding initialization delay...');
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Increased to 2 seconds
+        console.log('[useVoiceWithTone] Delay completed');
       }
       
-      // Clean up the stream we created for permission check
-      micStream.getTracks().forEach(track => track.stop());
+      console.log('[useVoiceWithTone] Playing dial tone...');
       
-      // Now proceed with the original Hume connection
+      // Create and play the connection tone
+      const audio = new Audio('/personal_jesus_connect_tone.wav');
+      audio.volume = 0.5;
+      
+      // Wait for tone to completely finish before connecting
+      await new Promise<void>((resolve, reject) => {
+        audio.addEventListener('ended', () => {
+          console.log('[useVoiceWithTone] Dial tone finished');
+          resolve();
+        });
+        
+        audio.addEventListener('error', (error) => {
+          console.warn('[useVoiceWithTone] Could not play connection tone:', error);
+          // Continue with connection even if tone fails
+          resolve();
+        });
+        
+        audio.play().catch((err) => {
+          console.warn('[useVoiceWithTone] Audio play failed:', err);
+          // Continue with connection even if tone fails
+          resolve();
+        });
+      });
+      
+      console.log('[useVoiceWithTone] Connecting to Hume...', {
+        status: originalVoice.status?.value,
+        timestamp: new Date().toISOString()
+      });
+      
+      // Now connect - dial tone is completely finished
       await originalVoice.connect();
       
-    } catch (error) {
+      console.log('[useVoiceWithTone] Connection initiated', {
+        status: originalVoice.status?.value,
+        timestamp: new Date().toISOString()
+      });
+    } catch (sin) {
       // Handle permission denied or connection errors
-      if (error instanceof Error && error.name === 'NotAllowedError') {
+      if (sin instanceof Error && sin.name === 'NotAllowedError') {
         console.error('I need your voice to hear your heart. Please allow microphone access in your browser.');
       } else {
-        console.error('Connection failed:', error);
+        console.error('Connection failed:', sin);
       }
-      throw error;
+      throw sin;
     }
-  }, [originalVoice]);
+  }, [originalVoice, isMobile, theme]);
 
   // Return all original voice properties but with our custom connect method
   return {

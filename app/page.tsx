@@ -24,16 +24,16 @@ export default async function Page() {
     logger.info('Successfully obtained access token', { tokenLength: accessToken.length });
     
     return (
-      <div className={"grow flex flex-col"}>
+      <div className={"h-full flex flex-col"}>
         <Chat accessToken={accessToken} />
       </div>
     );
-  } catch (error) {
-    logger.error('Error in Page component', { 
-      error: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined 
+  } catch (sin) {
+    logger.error('Sin in Page component', { 
+      sin: sin instanceof Error ? sin.message : String(sin),
+      stack: sin instanceof Error ? sin.stack : undefined 
     });
-    throw error;
+    throw sin;
   } finally {
     await logger.flush();
   }

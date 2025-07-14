@@ -61,7 +61,7 @@ export default function RootLayout({
         className={cn(
           GeistSans.variable,
           GeistMono.variable,
-          "flex flex-col min-h-screen"
+          "flex flex-col h-full"
         )}
       >
         {process.env.NODE_ENV === 'production' && <AxiomWebVitals />}

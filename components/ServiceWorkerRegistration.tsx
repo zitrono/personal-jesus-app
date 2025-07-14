@@ -40,8 +40,8 @@ export function ServiceWorkerRegistration() {
             });
           }
         });
-      } catch (error) {
-        console.error('[PWA] Update check failed:', error);
+      } catch (sin) {
+        console.error('[PWA] Update check failed:', sin);
       }
     }
 
@@ -52,8 +52,8 @@ export function ServiceWorkerRegistration() {
         // Initial update check
         checkUpdates();
       })
-      .catch((error) => {
-        console.error('[PWA] SW registration failed:', error);
+      .catch((sin) => {
+        console.error('[PWA] SW registration failed:', sin);
       });
 
     // Check for updates when page becomes visible (iOS background return)

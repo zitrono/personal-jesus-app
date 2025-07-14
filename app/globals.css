@@ -127,6 +127,84 @@
   }
 }
 
+/* Renaissance Divine Color Palette */
+:root {
+  --divine-gold: #DAA520;
+  --renaissance-blue: #4169E1;
+  --sacred-marble: #F5F5DC;
+  --divine-light: #FFF8DC;
+  --celestial-glow: rgba(218, 165, 32, 0.6);
+  --divine-shadow: rgba(218, 165, 32, 0.4);
+}
+
+/* Divine Glow Effect */
+.divine-glow {
+  position: relative;
+  box-shadow: 
+    0 0 20px var(--celestial-glow),
+    0 0 40px var(--divine-shadow),
+    0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.divine-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, var(--celestial-glow) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+/* Renaissance Pulse Animation */
+@keyframes renaissance-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px var(--celestial-glow),
+      0 0 40px var(--divine-shadow),
+      0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px var(--celestial-glow),
+      0 0 60px var(--divine-shadow),
+      0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes renaissance-glow-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.renaissance-pulse {
+  animation: renaissance-pulse 3s ease-in-out infinite;
+}
+
+.renaissance-pulse::before {
+  animation: renaissance-glow-pulse 3s ease-in-out infinite;
+}
+
+/* Divine Button Styling */
+.divine-button {
+  background: linear-gradient(135deg, var(--divine-light), var(--sacred-marble));
+  border: 1px solid var(--divine-gold);
+  color: var(--divine-gold);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
 /* Ensure buttons and UI elements are visible over background */
 button {
   position: relative;

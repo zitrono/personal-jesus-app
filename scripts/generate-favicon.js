@@ -21,13 +21,8 @@ async function generateFavicon() {
     })
     .toFile(path.join(outputDir, 'favicon-16x16.png'));
   
-  // Generate 48x48 for ICO
-  await sharp(inputPath)
-    .resize(48, 48, {
-      fit: 'cover',
-      position: 'center'
-    })
-    .toFile(path.join(outputDir, 'favicon.ico'));
+  // Note: Not generating favicon.ico as it causes 500 errors in Next.js dev
+  // Modern browsers work fine with PNG favicons
   
   console.log('Generated favicons');
 }

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Vatican-themed voice AI chat application built with Next.js that enables real-time conversations with an AI assistant using Hume AI's Empathic Voice Interface (EVI). The app features emotional intelligence, real-time audio visualization, and custom Vatican/Cardinal themed styling.
+This is a Renaissance divine-themed voice AI chat application built with Next.js that enables real-time conversations with an AI assistant using Hume AI's Empathic Voice Interface (EVI). The app features emotional intelligence, real-time audio visualization, and custom Michelangelo-inspired divine styling.
 
 ## Development Commands
 
@@ -41,13 +41,13 @@ axiom query personal-jesus --nocache \
 ### Core Technologies
 - **Next.js 14** with App Router
 - **@humeai/voice-react** for real-time voice AI integration
-- **Tailwind CSS 4** with custom Vatican color palette
+- **Tailwind CSS 4** with custom Renaissance divine color palette
 - **Framer Motion** for animations
 - **TypeScript** throughout
 
 ### Key Components Structure
 - `Chat.tsx` - Main orchestrator with VoiceProvider context
-- `StartCall.tsx` - Connection interface with "Call Jesus" branding
+- `StartCall.tsx` - Connection interface with "Touch Faith" branding
 - `Controls.tsx` - Voice controls (mute/unmute, end call) during active sessions
 - `Messages.tsx` - Conversation history display with animations
 - `Expressions.tsx` - Real-time emotion visualization from Hume's prosody model
@@ -61,10 +61,10 @@ axiom query personal-jesus --nocache \
 - WebRTC-based bidirectional voice communication
 
 ### Styling System
-- **Vatican Color Palette**: Custom CSS properties with Papal Gold, Cardinal Red, Sacred Purple
-- **Light/Dark Themes**: Vatican White → Deep Vatican Purple backgrounds
-- **Custom Classes**: `.vatican-button`, `.cardinal-red`, `.vatican-toggle`, `.papal-glow`
-- **Animation**: `papal-pulse` keyframe animation for golden glow effects
+- **Renaissance Divine Palette**: Custom CSS properties with Divine Gold, Renaissance Blue, Sacred Marble
+- **Light/Dark Themes**: Divine Light → Deep celestial backgrounds
+- **Custom Classes**: `.divine-button`, `.renaissance-pulse`, `.divine-glow`
+- **Animation**: `renaissance-pulse` keyframe animation for divine glow effects
 
 ### Data Flow
 1. Server-side token generation using Hume API credentials
@@ -75,7 +75,7 @@ axiom query personal-jesus --nocache \
 
 ## Important Files
 - `utils/getHumeAccessToken.ts` - Server-only authentication
-- `app/globals.css` - Vatican color system and custom components
+- `app/globals.css` - Renaissance divine color system and custom components
 - `utils/expressionColors.ts` & `utils/expressionLabels.ts` - Emotion visualization data
 
 ## Testing & Quality

@@ -16,10 +16,10 @@ export const metadata: Metadata = {
   title: "Personal Jesus",
   description: "Your own Personal Jesus is just a call away. A divine confessor who already knows your heart, waiting to hear what weighs on your soul.",
   manifest: "/manifest.json",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "Personal Jesus"
+  other: {
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "Personal Jesus"
   },
   formatDetection: {
     telephone: false
@@ -53,7 +53,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon-32x32.png" />
       </head>
       <body
         className={cn(
@@ -62,7 +62,7 @@ export default function RootLayout({
           "flex flex-col min-h-screen"
         )}
       >
-        <AxiomWebVitals />
+        {process.env.NODE_ENV === 'production' && <AxiomWebVitals />}
         <ServiceWorkerRegistration />
         <ClientProviders>
           {children}

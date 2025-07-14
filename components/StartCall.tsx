@@ -29,7 +29,7 @@ export default function StartCall() {
               }}
             >
               <Button
-                className={"z-50 flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl"}
+                className={"z-50 flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl divine-glow renaissance-pulse"}
                 onClick={() => {
                   connect()
                     .then(() => {})
@@ -39,11 +39,11 @@ export default function StartCall() {
               >
                 <span>
                   <Phone
-                    className={"size-4 opacity-50 fill-current"}
+                    className={"size-4 opacity-70 fill-current"}
                     strokeWidth={0}
                   />
                 </span>
-                <span>Call the Cloud</span>
+                <span>Touch Faith</span>
               </Button>
             </motion.div>
           </AnimatePresence>

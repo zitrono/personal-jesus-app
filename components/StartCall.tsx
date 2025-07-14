@@ -30,7 +30,23 @@ export default function StartCall() {
             >
               <Button
                 className={"z-50 flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl divine-glow renaissance-pulse"}
-                onClick={() => {
+                onClick={async () => {
+                  // Play the connection tone
+                  try {
+                    const audio = new Audio('/personal_jesus_connect_tone.wav');
+                    await audio.play();
+                    
+                    // Wait for audio to finish or continue after a short delay
+                    await new Promise<void>(resolve => {
+                      audio.addEventListener('ended', () => resolve());
+                      // Fallback timeout in case audio doesn't play
+                      setTimeout(() => resolve(), 2000);
+                    });
+                  } catch (error) {
+                    console.error('Failed to play connection tone:', error);
+                  }
+                  
+                  // Connect to Hume after audio plays
                   connect()
                     .then(() => {})
                     .catch(() => {})

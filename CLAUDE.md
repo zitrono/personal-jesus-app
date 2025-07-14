@@ -83,6 +83,14 @@ axiom query personal-jesus --nocache \
 - TypeScript strict mode enabled
 - No test framework currently configured
 
+## Hume AI Voice Style
+
+**Persona**: Jesus Christ as divine confessor, focusing on creating safe space for intimate confessions
+**Communication**: Brief (≤50 words), compassionate yet provocative with stylish humor
+**Progression**: Name → Acknowledge struggles → Specific examples → Deeper exploration
+**Theme Integration**: "Personal Jesus" by Depeche Mode - "Reach out, touch faith" motifs
+**Note**: App UI only - Hume AI generates all dialogue based on their configured role
+
 ## Troubleshooting
 
 **WebSocket/Connection Issues:**

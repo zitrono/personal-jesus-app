@@ -24,6 +24,18 @@ npx vercel logs <url>            # Runtime logs (follows new logs, Ctrl+C to exi
 ```
 See [docs/vercel-logs.md](docs/vercel-logs.md) for detailed Vercel logging guide.
 
+**Axiom Logs (Production Errors):**
+```bash
+# View recent logs
+AXIOM_TOKEN="xaat-cc66dfac-9fe6-4019-a00a-29e3896e9e33" axiom query "['jesus'] | sort by _time desc | limit 20"
+
+# Search for errors
+AXIOM_TOKEN="xaat-cc66dfac-9fe6-4019-a00a-29e3896e9e33" axiom query "['jesus'] | where level == 'error' or message contains 'error'"
+
+# Filter by time range
+AXIOM_TOKEN="xaat-cc66dfac-9fe6-4019-a00a-29e3896e9e33" axiom query "['jesus']" --start-time "-1h"
+```
+
 **Environment Setup:**
 - Requires `HUME_API_KEY` and `HUME_SECRET_KEY` environment variables
 - Get API keys from [Hume AI portal](https://beta.hume.ai/settings/keys)

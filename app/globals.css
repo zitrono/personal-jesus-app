@@ -161,6 +161,27 @@
   pointer-events: none;
 }
 
+/* Text-only glow without box shadow */
+.divine-text-glow {
+  position: relative;
+}
+
+.divine-text-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, var(--celestial-glow) 0%, var(--divine-shadow) 40%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(30px);
+  pointer-events: none;
+  opacity: 0.8;
+}
+
 /* Renaissance Pulse Animation */
 @keyframes renaissance-pulse {
   0%, 100% {
@@ -188,12 +209,70 @@
   }
 }
 
+/* Modal Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
 .renaissance-pulse {
   animation: renaissance-pulse 3s ease-in-out infinite;
 }
 
 .renaissance-pulse::before {
   animation: renaissance-glow-pulse 3s ease-in-out infinite;
+}
+
+/* Text-only renaissance pulse without box shadow */
+@keyframes renaissance-text-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes divine-glow-pulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+
+.renaissance-text-pulse {
+  animation: renaissance-text-pulse 3s ease-in-out infinite;
+}
+
+.divine-text-glow.renaissance-text-pulse::before {
+  animation: divine-glow-pulse 3s ease-in-out infinite;
 }
 
 /* Divine Button Styling */

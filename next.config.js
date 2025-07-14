@@ -1,4 +1,3 @@
-const { withAxiom } = require('next-axiom');
 
 // Generate build stamp for PWA versioning
 const buildStamp = process.env.NEXT_PUBLIC_BUILD || 
@@ -37,4 +36,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withAxiom(nextConfig);
+module.exports = nextConfig;

@@ -15,23 +15,31 @@ export const useVoiceWithTone = () => {
   // Override the connect method to inject connection tone
   const connect = useCallback(async () => {
     try {
-      // Skip custom flow on iOS and use direct Hume connection
-      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-        return await originalVoice.connect();
-      }
-      
-      // For iOS, we need to be very careful about user gesture context
-      // Let's try the original approach but with better error handling
-      
-      // Create audio element immediately to use user gesture
+      // Create audio element and prime it immediately within user gesture context
+      // This is critical for mobile browsers (iOS/Android) which require audio
+      // to be initiated synchronously within a user gesture
       const audio = new Audio('/personal_jesus_connect_tone.wav');
+      
+      // Prime the audio by calling play() immediately
+      // On mobile, this associates the audio with the user gesture
+      const audioPlayPromise = audio.play().catch(() => {
+        // Silently catch if autoplay is blocked
+        // The audio will still be primed for later playback
+      });
       
       // Request microphone permission
       const micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
       
-      // Play the connection tone
+      // Now that we have mic permission, the audio context is active
+      // If the audio was primed but blocked, try playing again
       try {
-        await audio.play();
+        // Wait for the initial play attempt to settle
+        await audioPlayPromise;
+        
+        // If audio is not playing yet, try again now that we have mic permission
+        if (audio.paused) {
+          await audio.play();
+        }
         
         // Wait for audio to finish or continue after a short delay
         await new Promise<void>(resolve => {

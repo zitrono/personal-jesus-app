@@ -10,7 +10,7 @@ export default function StartCall() {
     <AnimatePresence>
       {status.value !== "connected" ? (
         <motion.div
-          className={"fixed inset-0 p-4 flex items-center justify-center bg-background"}
+          className={"fixed inset-0 p-4 flex items-center justify-center"}
           initial="initial"
           animate="enter"
           exit="exit"
@@ -29,7 +29,7 @@ export default function StartCall() {
               }}
             >
               <Button
-                className={"z-50 flex items-center gap-1.5 rounded-full"}
+                className={"z-50 flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl"}
                 onClick={() => {
                   connect()
                     .then(() => {})
@@ -43,7 +43,7 @@ export default function StartCall() {
                     strokeWidth={0}
                   />
                 </span>
-                <span>Start Call</span>
+                <span>Call the Cloud</span>
               </Button>
             </motion.div>
           </AnimatePresence>

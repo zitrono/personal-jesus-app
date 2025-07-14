@@ -35,7 +35,6 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#8B6914",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -51,7 +50,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#8B6914" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />

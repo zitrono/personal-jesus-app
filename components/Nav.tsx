@@ -18,7 +18,7 @@ export const Nav = () => {
   return (
     <>
       <div
-        className={"fixed top-0 right-0 px-4 py-2 flex items-center h-14 z-50"}
+        className={"fixed top-0 right-0 left-0 pt-safe px-4 pb-2 flex justify-end items-center z-50"}
       >
         <div className={"ml-auto flex items-center gap-1"}>
           <Button

@@ -1,7 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useLogger } from 'next-axiom';
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+// Client-only component for error logging
+const ClientErrorLogger = dynamic(
+  () => import('./ClientErrorLogger').catch(() => ({ default: () => null })),
+  { ssr: false }
+);
 
 export default function Error({
   error,
@@ -10,17 +16,11 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const logger = useLogger();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Log the error to Axiom
-    logger.error('Global error handler caught error', {
-      message: error.message,
-      stack: error.stack,
-      digest: error.digest,
-      name: error.name,
-    });
-  }, [error, logger]);
+    setIsClient(true);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -29,13 +29,18 @@ export default function Error({
         <p className="text-muted-foreground">
           An unexpected error occurred. Our team has been notified.
         </p>
-        <details className="text-sm text-muted-foreground">
-          <summary className="cursor-pointer">Technical details</summary>
-          <pre className="mt-2 p-2 bg-muted rounded text-left overflow-auto">
-            {error.message}
-            {error.digest && `\nDigest: ${error.digest}`}
-          </pre>
-        </details>
+        {isClient && (
+          <>
+            <ClientErrorLogger error={error} />
+            <details className="text-sm text-muted-foreground">
+              <summary className="cursor-pointer">Technical details</summary>
+              <pre className="mt-2 p-2 bg-muted rounded text-left overflow-auto">
+                {error.message}
+                {error.digest && `\nDigest: ${error.digest}`}
+              </pre>
+            </details>
+          </>
+        )}
         <button
           onClick={reset}
           className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"

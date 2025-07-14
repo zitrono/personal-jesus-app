@@ -82,3 +82,12 @@ axiom query personal-jesus --nocache \
 - ESLint configuration with Next.js rules
 - TypeScript strict mode enabled
 - No test framework currently configured
+
+## Troubleshooting
+
+**WebSocket/Connection Issues:**
+```bash
+# Kill server, clear cache, restart
+lsof -ti:3001 | xargs kill -9 2>/dev/null && rm -rf .next && npm run dev -- --port 3001
+# In browser console: window.__DEV_RESET_CACHE__()
+```

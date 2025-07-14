@@ -4,7 +4,7 @@ import { VoiceProvider } from "@humeai/voice-react";
 import Messages from "./Messages";
 import Controls from "./Controls";
 import StartCall from "./StartCall";
-import { ComponentRef, useRef } from "react";
+import { ComponentRef, useRef, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function ClientComponent({
@@ -12,8 +12,14 @@ export default function ClientComponent({
 }: {
   accessToken: string;
 }) {
+  const [isClient, setIsClient] = useState(false);
   const timeout = useRef<number | null>(null);
   const ref = useRef<ComponentRef<typeof Messages> | null>(null);
+
+  // Ensure we're in client-side environment
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // optional: use configId from environment variable
   const configId = process.env['NEXT_PUBLIC_HUME_CONFIG_ID'];
@@ -28,6 +34,8 @@ export default function ClientComponent({
         auth={{ type: "accessToken", value: accessToken }}
         configId={configId}
         onMessage={() => {
+          if (!isClient) return;
+          
           if (timeout.current) {
             window.clearTimeout(timeout.current);
           }

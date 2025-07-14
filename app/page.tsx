@@ -4,6 +4,7 @@ import { Logger } from 'next-axiom';
 
 const Chat = dynamic(() => import("@/components/Chat"), {
   ssr: false,
+  loading: () => <div className="min-h-screen flex items-center justify-center"><div>Loading...</div></div>
 });
 
 export const revalidate = 0;

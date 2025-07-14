@@ -1,9 +1,14 @@
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  const buildStamp = process.env.NEXT_PUBLIC_BUILD || '2025-07-14-dev';
+  
+  const serviceWorkerCode = `
 // Battle-tested iOS PWA Service Worker
 // Static asset caching only - NO network interception
 
-// Build stamp will be injected by next.config.js or use fallback
-const BUILD = self.__BUILD__ || '2025-07-14-dev';
-const CACHE = `pwa-${BUILD}`;
+const BUILD = '${buildStamp}';
+const CACHE = 'pwa-' + BUILD;
 
 // Core static assets to pre-cache
 const coreAssets = [
@@ -103,3 +108,12 @@ self.addEventListener('message', event => {
     self.skipWaiting();
   }
 });
+`;
+
+  return new NextResponse(serviceWorkerCode, {
+    headers: {
+      'Content-Type': 'application/javascript',
+      'Cache-Control': 'no-store, must-revalidate',
+    },
+  });
+}

@@ -20,20 +20,16 @@ npm run lint              # Run ESLint
 **Vercel Logs:**
 ```bash
 npx vercel inspect --logs <url>  # Build logs
-npx vercel logs <url>            # Runtime logs (follows new logs, Ctrl+C to exit)
+npx vercel logs <url>            # Runtime logs (Ctrl+C to exit)
 ```
-See [docs/vercel-logs.md](docs/vercel-logs.md) for detailed Vercel logging guide.
 
-**Axiom Logs (Production Errors):**
+**Axiom Logs (personal-jesus dataset):**
 ```bash
-# View recent logs
-AXIOM_TOKEN="xaat-cc66dfac-9fe6-4019-a00a-29e3896e9e33" axiom query "['jesus'] | sort by _time desc | limit 20"
-
-# Search for errors
-AXIOM_TOKEN="xaat-cc66dfac-9fe6-4019-a00a-29e3896e9e33" axiom query "['jesus'] | where level == 'error' or message contains 'error'"
-
-# Filter by time range
-AXIOM_TOKEN="xaat-cc66dfac-9fe6-4019-a00a-29e3896e9e33" axiom query "['jesus']" --start-time "-1h"
+axiom dataset info personal-jesus      # Dataset stats
+axiom stream personal-jesus            # Live tail
+axiom query personal-jesus --nocache \
+  -f="_time,level,message,error" \
+  --start-time="-1h" --limit=100      # Historical
 ```
 
 **Environment Setup:**

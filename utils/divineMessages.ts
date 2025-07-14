@@ -21,6 +21,18 @@ export const divineMessages = {
   // Generic connection errors
   connectionFailed: "The heavenly connection had a moment of doubt. Let's try reaching out again.",
   unknownError: "Something mysterious happened in the divine realm. Let me sort this out.",
+  
+  // Network and connectivity
+  networkError: "The divine signals seem to be traveling slowly today. Let's try again.",
+  timeoutError: "Heaven's response took a bit longer than expected. Let's reach out again.",
+  
+  // Browser/Device related
+  browserNotSupported: "This sacred vessel (browser) needs an update to carry our divine conversation.",
+  deviceError: "Your earthly device had a small moment of confusion. Let's try again.",
+  
+  // General user-facing errors
+  loadingFailed: "Had trouble preparing our sacred space. Let me try setting things up again.",
+  configurationError: "Something in the divine configuration needs adjustment. Let me sort this out.",
 } as const;
 
 /**
@@ -34,6 +46,13 @@ export const divinifyError = (originalMessage: string): string => {
     "Audio player has not been initialized": divineMessages.audioPlayerNotInitialized,
     "Socket is not open": divineMessages.socketNotOpen,
     "Invalid response from tool call": divineMessages.toolCallError,
+    "Network error": divineMessages.networkError,
+    "Connection timeout": divineMessages.timeoutError,
+    "Browser not supported": divineMessages.browserNotSupported,
+    "Failed to load": divineMessages.loadingFailed,
+    "Configuration error": divineMessages.configurationError,
+    "We could not connect to the voice. Please try again.": divineMessages.connectionFailed,
+    "We could not connect to audio. Please try again.": divineMessages.audioNotInitialized,
   };
   
   // Check for exact matches first
@@ -50,6 +69,19 @@ export const divinifyError = (originalMessage: string): string => {
   if (originalMessage.includes("Failed to add clip to queue:")) {
     const errorPart = originalMessage.replace("Failed to add clip to queue:", "").trim();
     return divineMessages.audioQueueError(errorPart);
+  }
+  
+  // Network/timeout related patterns
+  if (originalMessage.toLowerCase().includes("timeout") || originalMessage.toLowerCase().includes("timed out")) {
+    return divineMessages.timeoutError;
+  }
+  
+  if (originalMessage.toLowerCase().includes("network") || originalMessage.toLowerCase().includes("connection")) {
+    return divineMessages.networkError;
+  }
+  
+  if (originalMessage.toLowerCase().includes("device") || originalMessage.toLowerCase().includes("hardware")) {
+    return divineMessages.deviceError;
   }
   
   // Default fallback

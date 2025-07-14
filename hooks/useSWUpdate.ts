@@ -4,7 +4,12 @@ export function useSWUpdate() {
   const [waiting, setWaiting] = useState<ServiceWorker | null>(null);
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'production' || !('serviceWorker' in navigator)) return;
+    if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
+    
+    // For testing in dev, uncomment the next line to simulate update ready:
+    // setWaiting({ postMessage: () => {}, addEventListener: () => {} } as any);
+    
+    if (process.env.NODE_ENV !== 'production') return;
 
     navigator.serviceWorker.register('/sw.js').then(reg => {
       // check at start-up

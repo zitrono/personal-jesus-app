@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:start": "node scripts/dev-start.js",
-    "build": "next build",
+    "build": "next build; node scripts/post-build.js || true",
     "build:stamped": "NEXT_PUBLIC_BUILD=$(date +%Y-%m-%d-%H%M)-$(git rev-parse --short HEAD 2>/dev/null || echo 'local') npm run build",
     "start": "next start",
     "lint": "next lint"

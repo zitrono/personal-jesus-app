@@ -1,3 +1,5 @@
+'use client';
+
 import { useVoice } from "./VoiceProviderWithTone";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";

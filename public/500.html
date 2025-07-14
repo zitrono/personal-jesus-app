@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divine Intervention Required - Personal Jesus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        
+        .container {
+            max-width: 28rem;
+            text-align: center;
+            color: #e5e7eb;
+        }
+        
+        h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .retry-btn, .home-link {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .retry-btn {
+            background: #d4af37;
+            color: #1a1a2e;
+        }
+        
+        .retry-btn:hover {
+            background: #b8941f;
+        }
+        
+        .home-link {
+            background: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+        }
+        
+        .home-link:hover {
+            background: #d4af37;
+            color: #1a1a2e;
+        }
+        
+        .divine-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Divine Intervention Required</h1>
+        <p>Something went sideways faster than Peter walking on water. I'm already on it.</p>
+        <div class="buttons">
+            <button class="retry-btn divine-glow" onclick="window.location.reload()">
+                Let's try this again (I believe in second chances)
+            </button>
+            <a href="/" class="home-link">Return Home</a>
+        </div>
+    </div>
+</body>
+</html>

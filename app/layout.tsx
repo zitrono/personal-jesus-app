@@ -4,15 +4,11 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { cn } from "@/utils";
 import dynamic from "next/dynamic";
-const ClientProviders = dynamic(
-  () => import("@/components/ClientProviders").then(mod => ({ default: mod.ClientProviders })),
-  { ssr: false }
-);
 
-const ServiceWorkerRegistration = dynamic(
-  () => import("@/components/ServiceWorkerRegistration").then(mod => ({ default: mod.ServiceWorkerRegistration })),
-  { ssr: false }
-);
+const Providers = dynamic(() => import('./providers').then((mod) => ({ default: mod.Providers })), {
+  ssr: false,
+});
+
 
 
 export const metadata: Metadata = {
@@ -67,10 +63,7 @@ export default function RootLayout({
           "flex flex-col min-h-screen"
         )}
       >
-        <ServiceWorkerRegistration />
-        <ClientProviders>
-          {children}
-        </ClientProviders>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -75,6 +75,11 @@ export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, ...pro
     return lightConfig;
   }, [mounted, theme]);
   
+  // Prevent any rendering during SSR to avoid useRef errors
+  if (!mounted) {
+    return null;
+  }
+  
   // Use key to force provider recreation only when config changes
   // This ensures the correct config is used for new connections
   return (

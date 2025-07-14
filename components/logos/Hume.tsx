@@ -1,3 +1,5 @@
+'use client';
+
 import type { FC, SVGAttributes } from "react";
 import { useId } from "react";
 

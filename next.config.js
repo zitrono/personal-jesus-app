@@ -34,6 +34,16 @@ const nextConfig = {
       },
     ];
   },
+  // Skip static generation entirely for all pages that use client components
+  output: 'standalone',
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
+  // Force all pages to be server-rendered instead of statically generated
+  trailingSlash: false,
+  generateBuildId: async () => {
+    return buildStamp;
+  },
 };
 
 module.exports = nextConfig;

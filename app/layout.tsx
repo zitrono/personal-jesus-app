@@ -5,10 +5,13 @@ import "./globals.css";
 import { cn } from "@/utils";
 import dynamic from "next/dynamic";
 import { AxiomWebVitals } from "next-axiom";
-import { ServiceWorkerRegistration } from "@/components/ServiceWorkerRegistration";
-
 const ClientProviders = dynamic(
   () => import("@/components/ClientProviders").then(mod => ({ default: mod.ClientProviders })),
+  { ssr: false }
+);
+
+const ServiceWorkerRegistration = dynamic(
+  () => import("@/components/ServiceWorkerRegistration").then(mod => ({ default: mod.ServiceWorkerRegistration })),
   { ssr: false }
 );
 
@@ -65,7 +68,7 @@ export default function RootLayout({
           "flex flex-col min-h-screen"
         )}
       >
-        {process.env.NODE_ENV === 'production' && <AxiomWebVitals />}
+        {process.env.NODE_ENV === 'production' && typeof window !== 'undefined' && <AxiomWebVitals />}
         <ServiceWorkerRegistration />
         <ClientProviders>
           {children}

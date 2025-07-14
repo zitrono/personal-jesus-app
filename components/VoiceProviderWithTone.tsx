@@ -1,3 +1,5 @@
+"use client";
+
 import { VoiceProvider, VoiceProviderProps, VoiceContextType } from "@humeai/voice-react";
 import { createContext, useContext, FC, useEffect, useState, useMemo } from "react";
 import { useVoiceWithTone } from "../hooks/useVoiceWithTone";

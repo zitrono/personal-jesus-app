@@ -1,3 +1,5 @@
+"use client";
+
 import { useVoice } from "@humeai/voice-react";
 import { useCallback } from "react";
 

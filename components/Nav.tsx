@@ -5,9 +5,15 @@ import { Moon, Sun } from "lucide-react";
 import Github from "./logos/GitHub";
 import pkg from "@/package.json";
 import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
 
 export const Nav = () => {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div
@@ -32,13 +38,15 @@ export const Nav = () => {
           className={"ml-auto flex items-center gap-1.5 rounded-full"}
         >
           <span>
-            {theme === "dark" ? (
+            {!mounted ? (
+              <div className="size-4 rounded-full bg-current opacity-20 animate-pulse" />
+            ) : theme === "dark" ? (
               <Sun className={"size-4"} />
             ) : (
               <Moon className={"size-4"} />
             )}
           </span>
-          <span>{theme === 'dark' ? "Light" : "Dark"} Mode</span>
+          <span>{!mounted ? "Theme" : theme === 'dark' ? "Light" : "Dark"} Mode</span>
         </Button>
       </div>
     </div>

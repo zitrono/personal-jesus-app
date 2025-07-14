@@ -119,5 +119,17 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: url('/back2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
+}
+
+/* Ensure buttons and UI elements are visible over background */
+button {
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }

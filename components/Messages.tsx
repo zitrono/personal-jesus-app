@@ -54,7 +54,7 @@ const Messages = forwardRef<
                         "text-xs capitalize font-medium leading-none opacity-50 tracking-tight"
                       )}
                     >
-                      {msg.message.role}
+                      {msg.message.role === "assistant" ? "Personal Jesus" : msg.message.role === "user" ? "Seeking Soul" : msg.message.role}
                     </div>
                     <div
                       className={cn(

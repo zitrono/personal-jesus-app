@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { cn } from "@/utils";
 import dynamic from "next/dynamic";
+import { AxiomWebVitals } from "next-axiom";
 
 const ClientProviders = dynamic(
   () => import("@/components/ClientProviders").then(mod => ({ default: mod.ClientProviders })),
@@ -29,6 +30,7 @@ export default function RootLayout({
           "flex flex-col min-h-screen"
         )}
       >
+        <AxiomWebVitals />
         <ClientProviders>
           {children}
         </ClientProviders>

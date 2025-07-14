@@ -6,6 +6,7 @@ import Controls from "./Controls";
 import StartCall from "./StartCall";
 import { ComponentRef, useRef, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { divinifyError } from "@/utils/divineMessages";
 
 export default function ClientComponent({
   accessToken,
@@ -48,7 +49,7 @@ export default function ClientComponent({
           }, 200);
         }}
         onError={(error) => {
-          toast.error(error.message);
+          toast.error(divinifyError(error.message));
         }}
       >
         <Messages ref={ref} />

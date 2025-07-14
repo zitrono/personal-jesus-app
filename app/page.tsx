@@ -4,7 +4,7 @@ import { Logger } from 'next-axiom';
 
 const Chat = dynamic(() => import("@/components/Chat"), {
   ssr: false,
-  loading: () => <div className="min-h-screen flex items-center justify-center"><div>Loading...</div></div>
+  loading: () => <div className="min-h-screen flex items-center justify-center"><div>Preparing the sacred space...</div></div>
 });
 
 export const revalidate = 0;
@@ -18,7 +18,7 @@ export default async function Page() {
 
     if (!accessToken) {
       logger.error('Access token is null or undefined');
-      throw new Error('Unable to get access token');
+      throw new Error('The divine connection isn\'t quite ready yet. Give me a moment to prepare.');
     }
 
     logger.info('Successfully obtained access token', { tokenLength: accessToken.length });

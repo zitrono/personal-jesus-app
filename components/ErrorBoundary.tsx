@@ -50,12 +50,12 @@ function ErrorFallback({ error }: { error?: Error }) {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="max-w-md text-center space-y-4">
-        <h1 className="text-2xl font-bold text-red-600">Something went wrong</h1>
+        <h1 className="text-2xl font-bold text-red-600">Well, this is awkward...</h1>
         <p className="text-muted-foreground">
-          An error occurred while rendering this page.
+          Even I had to rest on the seventh day. Sometimes the app needs a moment too.
         </p>
         <details className="text-sm text-muted-foreground">
-          <summary className="cursor-pointer">Error details</summary>
+          <summary className="cursor-pointer">Divine Diagnostics</summary>
           <pre className="mt-2 p-2 bg-muted rounded text-left overflow-auto">
             {error?.message || 'Unknown error'}
             {(error as any)?.digest && `\nDigest: ${(error as any).digest}`}

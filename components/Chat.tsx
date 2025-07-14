@@ -1,6 +1,6 @@
 "use client";
 
-import { VoiceProvider } from "@humeai/voice-react";
+import { VoiceProviderWithTone } from "./VoiceProviderWithTone";
 import Messages from "./Messages";
 import Controls from "./Controls";
 import StartCall from "./StartCall";
@@ -30,7 +30,7 @@ export default function ClientComponent({
         "relative grow flex flex-col mx-auto w-full overflow-hidden h-[0px]"
       }
     >
-      <VoiceProvider
+      <VoiceProviderWithTone
         auth={{ type: "accessToken", value: accessToken }}
         configId={configId}
         onMessage={() => {
@@ -58,7 +58,7 @@ export default function ClientComponent({
         <Messages ref={ref} />
         <Controls />
         <StartCall />
-      </VoiceProvider>
+      </VoiceProviderWithTone>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export const getHumeAccessToken = async () => {
   });
 
   if (!apiKey || !secretKey) {
-    throw new Error('Missing required environment variables (HUME_API_KEY or HUME_SECRET_KEY)');
+    throw new Error('The sacred keys seem to be missing from heaven\'s vault. Check your divine credentials.');
   }
 
   const accessToken = await fetchAccessToken({
@@ -29,7 +29,7 @@ export const getHumeAccessToken = async () => {
   });
 
   if (accessToken === "undefined") {
-    throw new Error('Unable to get access token');
+    throw new Error('The heavenly gates are having trouble with your credentials. Let\'s try again.');
   }
 
   return accessToken ?? null;

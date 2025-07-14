@@ -12,6 +12,7 @@ const ClientProviders = dynamic(
   { ssr: false }
 );
 
+
 export const metadata: Metadata = {
   title: "Personal Jesus",
   description: "Your own Personal Jesus is just a call away. A divine confessor who already knows your heart, waiting to hear what weighs on your soul.",

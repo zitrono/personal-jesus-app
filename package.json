@@ -5,6 +5,7 @@
   "homepage": "https://github.com/humeai/hume-evi-next-js-starter",
   "scripts": {
     "dev": "next dev",
+    "dev:start": "node scripts/dev-start.js",
     "build": "next build",
     "build:stamped": "NEXT_PUBLIC_BUILD=$(date +%Y-%m-%d-%H%M)-$(git rev-parse --short HEAD 2>/dev/null || echo 'local') npm run build",
     "start": "next start",

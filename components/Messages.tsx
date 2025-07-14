@@ -31,8 +31,7 @@ const Messages = forwardRef<
                   key={msg.type + index}
                   className={cn(
                     "w-[80%]",
-                    "bg-card",
-                    "border border-border rounded-xl",
+                    "glass-effect rounded-xl",
                     msg.type === "user_message" ? "ml-auto" : ""
                   )}
                   initial={{
@@ -48,7 +47,7 @@ const Messages = forwardRef<
                     y: 0,
                   }}
                 >
-                  <div className={"flex items-center justify-between pt-4 px-3"}>
+                  <div className={"flex items-center justify-between pt-3 px-3"}>
                     <div
                       className={cn(
                         "text-xs capitalize font-medium leading-none opacity-50 tracking-tight"
@@ -69,7 +68,6 @@ const Messages = forwardRef<
                     </div>
                   </div>
                   <div className={"pb-3 px-3"}>{msg.message.content}</div>
-                  <Expressions values={{ ...msg.models.prosody?.scores }} />
                 </motion.div>
               );
             }

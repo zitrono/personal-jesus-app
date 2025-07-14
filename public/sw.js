@@ -1,12 +1,8 @@
-// Battle-tested iOS PWA Service Worker
+// Battle-tested iOS PWA Service Worker with Deferred Activation
 // Static asset caching only - NO network interception
 
-// Build stamp will be injected by next.config.js or use fallback
-const BUILD = self.__BUILD__ || '2025-07-14-dev';
-const CACHE = `pwa-${BUILD}`;
-
-// Core static assets to pre-cache
-const coreAssets = [
+const VERSION = self.registration.scope.split('#')[1] || self.__BUILD__ || '2025-07-14-dev';
+const CORE = [
   '/',
   '/manifest.json',
   '/back2.png',
@@ -17,32 +13,22 @@ const coreAssets = [
   '/favicon-16x16.png'
 ];
 
-// Fast-lane install: cache assets and skip waiting
-self.addEventListener('install', event => {
-  console.log('[SW] Install event, build:', BUILD);
-  event.waitUntil(
-    (async () => {
-      const cache = await caches.open(CACHE);
-      await cache.addAll(coreAssets);
-      await self.skipWaiting(); // Enter waiting → activate immediately
-    })()
+// ① install ─ cache the shell only
+self.addEventListener('install', evt => {
+  console.log('[SW] Install event, build:', VERSION);
+  evt.waitUntil(
+    caches.open(`core-${VERSION}`).then(c => c.addAll(CORE))
   );
+  // DO NOT call self.skipWaiting() – wait for user approval
 });
 
-// Fast-lane activate: clean old caches and take control
-self.addEventListener('activate', event => {
-  console.log('[SW] Activate event, cache:', CACHE);
-  event.waitUntil(
-    (async () => {
-      // Delete all old caches
-      for (const name of await caches.keys()) {
-        if (name !== CACHE) {
-          console.log('[SW] Deleting old cache:', name);
-          await caches.delete(name);
-        }
-      }
-      await self.clients.claim(); // Take control immediately
-    })()
+// ② activate ─ clean old caches, then take control
+self.addEventListener('activate', evt => {
+  console.log('[SW] Activate event, cache:', `core-${VERSION}`);
+  evt.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => !k.endsWith(VERSION)).map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
   );
 });
 
@@ -81,7 +67,7 @@ self.addEventListener('fetch', event => {
         
         // Cache successful responses for static assets
         if (response.status === 200 && response.type === 'basic') {
-          const cache = await caches.open(CACHE);
+          const cache = await caches.open(`core-${VERSION}`);
           cache.put(request, response.clone());
         }
         
@@ -98,9 +84,7 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// Message handling for debug/manual updates
-self.addEventListener('message', event => {
-  if (event.data?.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+// ③ listen for the app's "please activate" message
+self.addEventListener('message', evt => {
+  if (evt.data === 'SKIP_WAITING') self.skipWaiting();
 });

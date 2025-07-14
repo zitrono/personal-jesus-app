@@ -24,7 +24,7 @@ export const Nav = () => {
           <Button
             onClick={() => setShowAboutModal(true)}
             variant={"ghost"}
-            className={"ml-auto flex items-center gap-1.5 rounded-full"}
+            className={"ml-auto flex items-center gap-1.5 rounded-full glass-effect"}
           >
             <span className="text-lg">🎵</span>
             <span>About</span>
@@ -32,7 +32,7 @@ export const Nav = () => {
         <Button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           variant={"ghost"}
-          className={"ml-auto flex items-center gap-1.5 rounded-full"}
+          className={"ml-auto flex items-center gap-1.5 rounded-full glass-effect"}
         >
           <span>
             {!mounted ? (

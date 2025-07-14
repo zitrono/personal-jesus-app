@@ -1,0 +1,39 @@
+import { useEffect, useState } from 'react';
+
+export function useSWUpdate() {
+  const [waiting, setWaiting] = useState<ServiceWorker | null>(null);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production' || !('serviceWorker' in navigator)) return;
+
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+      // check at start-up
+      if (reg.waiting) setWaiting(reg.waiting);
+
+      // listen for new workers landing
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing;
+        nw?.addEventListener('statechange', () => {
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+            setWaiting(nw);
+          }
+        });
+      });
+    });
+
+    // fresh check whenever the PWA returns to the foreground
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        navigator.serviceWorker.ready.then(r => r.update());
+      }
+    });
+  }, []);
+
+  const activate = () => {
+    if (!waiting) return;
+    waiting.postMessage('SKIP_WAITING');
+    navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
+  };
+
+  return { updateReady: !!waiting, activate };
+}

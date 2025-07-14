@@ -20,51 +20,14 @@ export function ServiceWorkerRegistration() {
       return;
     }
 
-    // iOS PWA update checking
-    async function checkUpdates() {
-      try {
-        const reg = await navigator.serviceWorker.ready;
-        
-        // Call update to check for new SW version (iOS-specific)
-        reg.update();
-
-        // Handle silent updates
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('[PWA] Silent update applied, new version available on next load');
-                // Could optionally show a subtle indicator here
-              }
-            });
-          }
-        });
-      } catch (error) {
-        console.error('[PWA] Update check failed:', error);
-      }
-    }
-
-    // Register service worker
+    // Register service worker (update logic handled by useSWUpdate hook)
     navigator.serviceWorker.register('/sw.js')
       .then((registration) => {
         console.log('[PWA] SW registered:', registration.scope);
-        // Initial update check
-        checkUpdates();
       })
       .catch((error) => {
         console.error('[PWA] SW registration failed:', error);
       });
-
-    // Check for updates when page becomes visible (iOS background return)
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        checkUpdates();
-      }
-    });
-
-    // Check for updates on page load
-    window.addEventListener('load', checkUpdates);
 
   }, []);
 

@@ -11,6 +11,7 @@ This is a Renaissance divine-themed voice AI chat application built with Next.js
 **Core Commands:**
 ```bash
 cd personal-jesus-app
+npm run dev:start         # Smart dev server launcher (recommended for Claude Code)
 npm run dev              # Dev server on 3001 (port 3000 PROHIBITED)
 npm run build             # Build for production
 npm run start -- -p 3003 # Production server (NEVER use port 3000)

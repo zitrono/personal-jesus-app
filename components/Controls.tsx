@@ -34,7 +34,7 @@ export default function Controls() {
               opacity: 0,
             }}
             className={
-              "p-4 bg-card border border-border/50 rounded-full flex items-center gap-4"
+              "p-4 glass-effect rounded-full flex items-center gap-4"
             }
           >
             <Toggle

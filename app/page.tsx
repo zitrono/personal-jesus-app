@@ -7,6 +7,12 @@ const Chat = dynamic(() => import("@/components/Chat"), {
   loading: () => <div className="min-h-screen flex items-center justify-center"><div>Preparing the sacred space...</div></div>
 });
 
+const PwaInstallPrompt = dynamic(
+  () => import("@/components/PwaInstallPrompt").then(mod => ({ default: mod.PwaInstallPrompt })),
+  { ssr: false }
+);
+
+
 export const revalidate = 0;
 
 export default async function Page() {
@@ -26,6 +32,7 @@ export default async function Page() {
     return (
       <div className={"grow flex flex-col"}>
         <Chat accessToken={accessToken} />
+        <PwaInstallPrompt />
       </div>
     );
   } catch (error) {

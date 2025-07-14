@@ -2,13 +2,24 @@
 
 import { useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { X, RotateCcw } from "lucide-react";
+import { useSWUpdate } from "@/hooks/useSWUpdate";
 
 interface AboutModalProps {
   onClose: () => void;
 }
 
 export const AboutModal = ({ onClose }: AboutModalProps) => {
+  const { updateReady, activate } = useSWUpdate();
+
+  const handleUpdate = () => {
+    // Clear PWA install prompt from localStorage so it can show again after update
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('pwa-install-prompt');
+    }
+    activate();
+  };
+
   // Handle ESC key press
   const handleEscKey = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -146,6 +157,32 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                     </a>
                   </p>
                 </div>
+                
+                {/* App Update Button */}
+                {updateReady && (
+                  <div className="space-y-3">
+                    <h2 className="text-xl font-semibold text-[var(--divine-gold)]">
+                      App Update Available
+                    </h2>
+                    <div className="flex justify-center">
+                      <button
+                        onClick={handleUpdate}
+                        className="flex items-center gap-2 px-6 py-3 
+                                 bg-[var(--divine-gold)] hover:bg-[var(--divine-light)] 
+                                 text-black font-semibold rounded-lg
+                                 transition-colors duration-200
+                                 focus:outline-none focus:ring-2 focus:ring-[var(--divine-gold)] focus:ring-offset-2 focus:ring-offset-black"
+                        aria-label="Update app to latest version"
+                      >
+                        <RotateCcw className="size-4" />
+                        Update app
+                      </button>
+                    </div>
+                    <p className="text-sm text-gray-300 text-center">
+                      A new version is ready. Click to update and reload.
+                    </p>
+                  </div>
+                )}
                 
                 {/* Quote */}
                 <p className="text-xl sm:text-2xl text-center italic text-[var(--divine-gold)] 

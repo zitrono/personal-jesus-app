@@ -14,6 +14,11 @@ export const useVoiceWithTone = () => {
   // Override the connect method to inject connection tone
   const connect = useCallback(async () => {
     try {
+      // Skip custom flow on iOS and use direct Hume connection
+      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        return await originalVoice.connect();
+      }
+      
       // For iOS, we need to be very careful about user gesture context
       // Let's try the original approach but with better error handling
       

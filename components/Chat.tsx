@@ -21,9 +21,6 @@ export default function ClientComponent({
     setIsClient(true);
   }, []);
 
-  // optional: use configId from environment variable
-  const configId = process.env['NEXT_PUBLIC_HUME_CONFIG_ID'];
-  
   return (
     <div
       className={
@@ -32,7 +29,6 @@ export default function ClientComponent({
     >
       <VoiceProviderWithTone
         auth={{ type: "accessToken", value: accessToken }}
-        configId={configId}
         onMessage={() => {
           if (!isClient) return;
           

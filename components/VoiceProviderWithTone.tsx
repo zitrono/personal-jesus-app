@@ -37,7 +37,7 @@ const VoiceWithToneProvider: FC<{ children: React.ReactNode }> = ({ children }) 
  * Maintains all original props and behavior while enhancing the connect method
  * Now includes theme-based config selection
  */
-export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, configId, ...props }) => {
+export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, ...props }) => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   
@@ -48,16 +48,30 @@ export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, config
   
   // Select config based on theme
   const themeConfigId = useMemo(() => {
-    if (!mounted) {
+    if (!mounted || !theme) {
       // Default to light config during SSR
-      return process.env.NEXT_PUBLIC_HUME_CONFIG_ID || configId;
+      return process.env.NEXT_PUBLIC_HUME_CONFIG_ID?.trim();
     }
     
     if (theme === 'dark') {
-      return process.env.NEXT_PUBLIC_HUME_CONFIG_ID_DARK || configId;
+      const darkConfig = process.env.NEXT_PUBLIC_HUME_CONFIG_ID_DARK?.trim();
+      console.log('[VoiceProvider] Using dark mode config:', {
+        configId: darkConfig,
+        theme,
+        mounted,
+        timestamp: new Date().toISOString()
+      });
+      return darkConfig;
     }
-    return process.env.NEXT_PUBLIC_HUME_CONFIG_ID || configId;
-  }, [mounted, theme, configId]);
+    const lightConfig = process.env.NEXT_PUBLIC_HUME_CONFIG_ID?.trim();
+    console.log('[VoiceProvider] Using light mode config:', {
+      configId: lightConfig,
+      theme,
+      mounted,
+      timestamp: new Date().toISOString()
+    });
+    return lightConfig;
+  }, [mounted, theme]);
   
   // Use key to force provider recreation only when config changes
   // This ensures the correct config is used for new connections

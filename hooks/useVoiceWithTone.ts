@@ -2,6 +2,7 @@
 
 import { useVoice } from "@humeai/voice-react";
 import { useCallback } from "react";
+import { divineMessages } from "@/utils/divineMessages";
 
 /**
  * Custom hook that wraps the original useVoice hook to play connection tone
@@ -56,9 +57,9 @@ export const useVoiceWithTone = () => {
     } catch (error) {
       // Handle permission denied or connection errors
       if (error instanceof Error && error.name === 'NotAllowedError') {
-        console.error('I need your voice to hear your heart. Please allow microphone access in your browser.');
+        console.error(divineMessages.microphonePermissionDenied);
       } else {
-        console.error('Connection failed:', error);
+        console.error(divineMessages.connectionFailed, error);
       }
       throw error;
     }

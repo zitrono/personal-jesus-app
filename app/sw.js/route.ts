@@ -1,7 +1,14 @@
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  const buildStamp = process.env.NEXT_PUBLIC_BUILD || `dev-${Date.now()}`;
+  
+  const swContent = `
 // Battle-tested iOS PWA Service Worker with Deferred Activation
 // Static asset caching only - NO network interception
 
-const VERSION = self.registration.scope.split('#')[1] || self.__BUILD__ || '2025-07-14-dev';
+// VERSION extracted from registration scope fragment as per guide
+const VERSION = self.registration.scope.split('#')[1] || '${buildStamp}';
 const CORE = [
   '/',
   '/manifest.json',
@@ -13,18 +20,20 @@ const CORE = [
   '/favicon-16x16.png'
 ];
 
+console.log('[SW] Service worker loading with VERSION:', VERSION);
+
 // ① install ─ cache the shell only
 self.addEventListener('install', evt => {
   console.log('[SW] Install event, build:', VERSION);
   evt.waitUntil(
-    caches.open(`core-${VERSION}`).then(c => c.addAll(CORE))
+    caches.open(\`core-\${VERSION}\`).then(c => c.addAll(CORE))
   );
   // DO NOT call self.skipWaiting() – wait for user approval
 });
 
 // ② activate ─ clean old caches, then take control
 self.addEventListener('activate', evt => {
-  console.log('[SW] Activate event, cache:', `core-${VERSION}`);
+  console.log('[SW] Activate event, cache:', \`core-\${VERSION}\`);
   evt.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => !k.endsWith(VERSION)).map(k => caches.delete(k)))
@@ -67,7 +76,7 @@ self.addEventListener('fetch', event => {
         
         // Cache successful responses for static assets
         if (response.status === 200 && response.type === 'basic') {
-          const cache = await caches.open(`core-${VERSION}`);
+          const cache = await caches.open(\`core-\${VERSION}\`);
           cache.put(request, response.clone());
         }
         
@@ -86,5 +95,18 @@ self.addEventListener('fetch', event => {
 
 // ③ listen for the app's "please activate" message
 self.addEventListener('message', evt => {
-  if (evt.data === 'SKIP_WAITING') self.skipWaiting();
+  if (evt.data === 'SKIP_WAITING') {
+    console.log('[SW] Received SKIP_WAITING, activating new version');
+    self.skipWaiting();
+  }
 });
+`;
+
+  return new NextResponse(swContent, {
+    headers: {
+      'Content-Type': 'application/javascript',
+      'Cache-Control': 'no-store, must-revalidate, no-cache',
+      'Service-Worker-Allowed': '/',
+    },
+  });
+}

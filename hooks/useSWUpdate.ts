@@ -11,7 +11,9 @@ export function useSWUpdate() {
     
     if (process.env.NODE_ENV !== 'production') return;
 
-    navigator.serviceWorker.register('/sw.js').then(reg => {
+    // Register service worker as per guide pattern
+    const buildStamp = process.env.NEXT_PUBLIC_BUILD || `dev-${Date.now()}`;
+    navigator.serviceWorker.register(`/sw.js#${buildStamp}`).then(reg => {
       // check at start-up
       if (reg.waiting) setWaiting(reg.waiting);
 
@@ -29,6 +31,7 @@ export function useSWUpdate() {
     // fresh check whenever the PWA returns to the foreground
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
+        console.log('[useSWUpdate] Page visible, checking for updates');
         navigator.serviceWorker.ready.then(r => r.update());
       }
     });

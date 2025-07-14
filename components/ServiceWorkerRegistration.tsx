@@ -20,14 +20,8 @@ export function ServiceWorkerRegistration() {
       return;
     }
 
-    // Register service worker (update logic handled by useSWUpdate hook)
-    navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        console.log('[PWA] SW registered:', registration.scope);
-      })
-      .catch((error) => {
-        console.error('[PWA] SW registration failed:', error);
-      });
+    // Service worker registration now handled by useSWUpdate hook
+    console.log('[PWA] ServiceWorkerRegistration component loaded');
 
   }, []);
 

@@ -42,43 +42,48 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
       
       {/* Modal Content */}
       <div 
-        className="relative flex min-h-screen items-start justify-center p-4 sm:p-8 pt-safe"
+        className="relative flex min-h-screen items-start justify-center 
+                   p-4 sm:p-8 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] 
+                   pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative w-full max-w-2xl animate-slideUp mt-16 sm:mt-20">
-          {/* Close Button */}
-          <button
-            onClick={onClose}
-            className="absolute -top-12 right-0 sm:-right-12 sm:top-0 p-2 rounded-full 
-                     bg-black/50 hover:bg-black/70 transition-colors group"
-            aria-label="Close modal"
-          >
-            <X className="size-6 text-white group-hover:text-[var(--divine-gold)] transition-colors" />
-          </button>
-          
+        <div className="relative w-full max-w-2xl animate-slideUp mt-4 sm:mt-8">
           {/* Content Container */}
           <div className="relative rounded-lg overflow-hidden">
-            <div className="relative p-6 sm:p-10 space-y-6 max-h-[90vh] overflow-y-auto">
-              {/* Title */}
-              <h1 
-                id="about-modal-title"
-                className="text-4xl sm:text-5xl font-bold text-center 
-                         text-[var(--divine-gold)] renaissance-text-pulse"
+            <div className="relative p-4 sm:p-6 space-y-4 max-h-[85vh] overflow-y-auto">
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="absolute top-4 left-4 z-10 p-2 rounded-full 
+                         bg-black/70 hover:bg-black/90 transition-colors group
+                         backdrop-blur-sm border border-white/20"
+                aria-label="Close modal"
               >
-                About Personal Jesus
-              </h1>
+                <X className="size-6 text-white group-hover:text-[var(--divine-gold)] transition-colors" />
+              </button>
+              
+              {/* Title */}
+              <div className="text-center">
+                <h1 
+                  id="about-modal-title"
+                  className="text-4xl sm:text-5xl font-bold 
+                           text-[var(--divine-gold)] renaissance-text-pulse"
+                >
+                  Personal Jesus
+                </h1>
+                <p className="text-base text-gray-400 mt-1">
+                  v{process.env.NEXT_PUBLIC_BUILD || 'dev'}
+                </p>
+              </div>
               
               {/* Main Content */}
-              <div className="space-y-5 text-gray-200">
+              <div className="space-y-4 text-gray-200">
                 <p className="text-base sm:text-lg leading-relaxed">
-                  This app is inspired by Depeche Mode's iconic 1989 hit "Personal Jesus" - 
-                  a song about being someone's personal savior, their confidant who's always 
-                  there to hear their prayers and forgive their sins. The track's hypnotic 
-                  blues riff and provocative lyrics explore themes of faith, intimacy, and 
-                  the human need for absolution.
+                  Inspired by Depeche Mode's 1989 hit "Personal Jesus" - your personal savior 
+                  who's always there to hear your prayers and forgive your sins.
                 </p>
                 
-                <p className="flex items-center gap-3 text-base sm:text-lg">
+                <p className="flex items-center gap-2 text-base sm:text-lg">
                   <span className="text-xl">🎵</span>
                   <a 
                     href="https://www.youtube.com/watch?v=u1xrNaTO1bI" 
@@ -87,9 +92,25 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                     className="text-[var(--divine-gold)] hover:text-[var(--divine-light)] 
                              transition-colors underline underline-offset-4"
                   >
-                    Listen to "Personal Jesus" on YouTube
+                    Listen on YouTube
                   </a>
                 </p>
+                
+                {/* Easter Eggs Section */}
+                <div className="relative p-3 bg-black/50 rounded-lg 
+                              border-l-4 border-[var(--divine-gold)]">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--divine-gold)]/10 
+                                to-transparent pointer-events-none" />
+                  <div className="relative">
+                    <p className="text-sm sm:text-base text-gray-300 mb-2">
+                      <span className="font-semibold text-[var(--divine-gold)]">Easter Eggs:</span>
+                    </p>
+                    <ul className="text-sm sm:text-base text-gray-300 space-y-1 ml-2">
+                      <li>• Say "Personal Jesus" during conversation for a special response</li>
+                      <li>• Try dark mode for the full divine experience</li>
+                    </ul>
+                  </div>
+                </div>
                 
                 <p className="text-base sm:text-lg">
                   Built by{" "}
@@ -105,51 +126,9 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                   {" "}for his 50th birthday <span className="text-xl">🎂</span>
                 </p>
                 
-                {/* Easter Egg Section */}
-                <div className="relative mt-6 p-4 bg-black/50 rounded-lg 
-                              border-l-4 border-[var(--divine-gold)]">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--divine-gold)]/10 
-                                to-transparent pointer-events-none" />
-                  <div className="relative">
-                    <p className="text-sm sm:text-base text-gray-300">
-                      <span className="font-semibold text-[var(--divine-gold)]">Easter Egg:</span> Say "Personal Jesus" during your conversation for a special response.
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Contact Section */}
-                <div className="space-y-3">
-                  <h2 className="text-xl font-semibold text-[var(--divine-gold)]">
-                    Contact
-                  </h2>
-                  <p className="text-sm sm:text-base text-gray-300">
-                    Telegram:{" "}
-                    <a 
-                      href="https://t.me/zitrono" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[var(--divine-gold)] hover:text-[var(--divine-light)] 
-                               transition-colors underline underline-offset-4"
-                    >
-                      @zitrono
-                    </a>
-                    {" • "}
-                    Feedback? →{" "}
-                    <a 
-                      href="https://t.me/zitrono" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[var(--divine-gold)] hover:text-[var(--divine-light)] 
-                               transition-colors underline underline-offset-4"
-                    >
-                      zitrono
-                    </a>
-                  </p>
-                </div>
-                
                 {/* Quote */}
                 <p className="text-xl sm:text-2xl text-center italic text-[var(--divine-gold)] 
-                            mt-8">
+                            mt-6">
                   "Reach out and touch faith"
                 </p>
               </div>

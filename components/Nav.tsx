@@ -31,16 +31,6 @@ export const Nav = () => {
         className={"fixed top-0 right-0 left-0 pt-safe px-4 pb-2 flex justify-end items-center z-50"}
       >
         <div className={"ml-auto flex items-center gap-1"}>
-          {updateReady && (
-            <Button
-              onClick={handleUpdate}
-              variant={"ghost"}
-              className={"flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl divine-glow renaissance-pulse"}
-            >
-              <span className="text-lg">🔄</span>
-              <span>Update Available</span>
-            </Button>
-          )}
           <Button
             onClick={() => setShowAboutModal(true)}
             variant={"ghost"}
@@ -69,6 +59,21 @@ export const Nav = () => {
     </div>
     {showAboutModal && (
       <AboutModal onClose={() => setShowAboutModal(false)} />
+    )}
+    
+    {/* Update Available Button - positioned like call button */}
+    {updateReady && (
+      <div className="fixed inset-0 p-4 flex items-end justify-center pointer-events-none z-40">
+        <div className="pointer-events-auto">
+          <Button
+            onClick={handleUpdate}
+            className="flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl divine-glow renaissance-pulse"
+          >
+            <span className="text-lg">🔄</span>
+            <span>Update Available</span>
+          </Button>
+        </div>
+      </div>
     )}
   </>
   );

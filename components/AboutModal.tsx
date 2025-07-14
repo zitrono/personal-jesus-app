@@ -42,10 +42,10 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
       
       {/* Modal Content */}
       <div 
-        className="relative flex min-h-screen items-center justify-center p-4 sm:p-8"
+        className="relative flex min-h-screen items-start justify-center p-4 sm:p-8 pt-safe"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative w-full max-w-2xl animate-slideUp">
+        <div className="relative w-full max-w-2xl animate-slideUp mt-16 sm:mt-20">
           {/* Close Button */}
           <button
             onClick={onClose}

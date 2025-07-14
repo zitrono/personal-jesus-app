@@ -117,8 +117,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    height: 100%;
+  }
   body {
     @apply bg-background text-foreground;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
     background-image: url('/back2.png');
     background-size: cover;
     background-position: center;
@@ -289,4 +296,9 @@ button {
   position: relative;
   z-index: 100;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Safe area padding for iOS devices */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 1rem);
 }

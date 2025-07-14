@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
-import { Nav } from "@/components/Nav";
 import { cn } from "@/utils";
-import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import dynamic from "next/dynamic";
+
+const ClientProviders = dynamic(
+  () => import("@/components/ClientProviders").then(mod => ({ default: mod.ClientProviders })),
+  { ssr: false }
+);
 
 export const metadata: Metadata = {
   title: "Hume AI - EVI - Next.js Starter",
@@ -18,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           GeistSans.variable,
@@ -26,16 +29,9 @@ export default function RootLayout({
           "flex flex-col min-h-screen"
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Nav />
+        <ClientProviders>
           {children}
-          <Toaster position="top-center" richColors={true} />
-        </ThemeProvider>
+        </ClientProviders>
       </body>
     </html>
   );

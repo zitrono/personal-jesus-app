@@ -1,6 +1,7 @@
 import { VoiceProvider, VoiceProviderProps, VoiceContextType } from "@humeai/voice-react";
-import { createContext, useContext, FC } from "react";
+import { createContext, useContext, FC, useEffect, useState, useMemo } from "react";
 import { useVoiceWithTone } from "../hooks/useVoiceWithTone";
+import { useTheme } from "next-themes";
 
 // Create a context for our custom voice hook
 const VoiceWithToneContext = createContext<VoiceContextType | null>(null);
@@ -34,10 +35,34 @@ const VoiceWithToneProvider: FC<{ children: React.ReactNode }> = ({ children }) 
 /**
  * Drop-in replacement for the original VoiceProvider that adds connection tone functionality
  * Maintains all original props and behavior while enhancing the connect method
+ * Now includes theme-based config selection
  */
-export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, ...props }) => {
+export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, configId, ...props }) => {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  
+  // Ensure we're on client side
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  // Select config based on theme
+  const themeConfigId = useMemo(() => {
+    if (!mounted) {
+      // Default to light config during SSR
+      return process.env.NEXT_PUBLIC_HUME_CONFIG_ID || configId;
+    }
+    
+    if (theme === 'dark') {
+      return process.env.NEXT_PUBLIC_HUME_CONFIG_ID_DARK || configId;
+    }
+    return process.env.NEXT_PUBLIC_HUME_CONFIG_ID || configId;
+  }, [mounted, theme, configId]);
+  
+  // Use key to force provider recreation only when config changes
+  // This ensures the correct config is used for new connections
   return (
-    <VoiceProvider {...props}>
+    <VoiceProvider {...props} configId={themeConfigId} key={`voice-${themeConfigId}`}>
       <VoiceWithToneProvider>
         {children}
       </VoiceWithToneProvider>

@@ -132,6 +132,11 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
+
+  /* Dark mode background */
+  .dark body {
+    background-image: url('/back-dark.png');
+  }
 }
 
 /* Renaissance Divine Color Palette */

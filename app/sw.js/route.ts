@@ -15,6 +15,7 @@ const coreAssets = [
   '/',
   '/manifest.json',
   '/back2.png',
+  '/back-dark.png',
   '/icon-192x192.png',
   '/icon-512x512.png',
   '/favicon-32x32.png',

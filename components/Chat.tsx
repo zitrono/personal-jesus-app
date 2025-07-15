@@ -68,10 +68,11 @@ export default function ClientComponent({
   return (
     <div
       className={
-        "relative grow flex flex-col mx-auto w-full overflow-hidden h-[0px]"
+        "relative grow flex flex-col mx-auto w-full overflow-hidden h-full"
       }
     >
       <VoiceProvider
+        auth={{ type: "accessToken", value: accessToken }}
         onMessage={() => {
           if (!isClient) return;
           

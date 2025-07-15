@@ -147,7 +147,7 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                   >
                     @zitrono
                   </a>
-                  {" "}for his 50th birthday <span className="text-xl">🎂</span>
+                  {" "}for his 50th birthday <span className="text-lg">🎂</span>
                 </p>
                 
                 {/* Forget Sins Button */}

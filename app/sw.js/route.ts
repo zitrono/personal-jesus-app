@@ -81,13 +81,13 @@ self.addEventListener('fetch', event => {
         }
         
         return response;
-      } catch (error) {
+      } catch (sin) {
         // Offline fallback for navigation requests
         if (request.mode === 'navigate') {
           const cached = await caches.match('/');
           if (cached) return cached;
         }
-        throw error;
+        throw sin;
       }
     })()
   );

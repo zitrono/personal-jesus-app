@@ -72,7 +72,6 @@ export default function ClientComponent({
       }
     >
       <VoiceProvider
-        auth={{ type: "accessToken", value: accessToken }}
         onMessage={() => {
           if (!isClient) return;
           

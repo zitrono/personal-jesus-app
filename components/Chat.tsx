@@ -4,6 +4,7 @@ import { VoiceProviderWithTone } from "./VoiceProviderWithTone";
 import Messages from "./Messages";
 import Controls from "./Controls";
 import StartCall from "./StartCall";
+import { ChatMetadataMonitor } from "./ChatMetadataMonitor";
 import { ComponentRef, useRef, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { divinifyError } from "@/utils/divineMessages";
@@ -52,6 +53,7 @@ export default function ClientComponent({
           toast.error(divinifyError(error.message));
         }}
       >
+        <ChatMetadataMonitor />
         <Messages ref={ref} />
         <Controls />
         <StartCall />

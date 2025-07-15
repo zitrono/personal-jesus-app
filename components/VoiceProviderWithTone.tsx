@@ -4,6 +4,7 @@ import { VoiceProvider, VoiceProviderProps, VoiceContextType } from "@humeai/voi
 import { createContext, useContext, FC, useEffect, useState, useMemo } from "react";
 import { useVoiceWithTone } from "../hooks/useVoiceWithTone";
 import { useTheme } from "next-themes";
+import { chatStorage } from "@/utils/chatStorage";
 
 // Create a context for our custom voice hook
 const VoiceWithToneContext = createContext<VoiceContextType | null>(null);
@@ -42,10 +43,18 @@ const VoiceWithToneProvider: FC<{ children: React.ReactNode }> = ({ children }) 
 export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, ...props }) => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [resumedChatGroupId, setResumedChatGroupId] = useState<string | undefined>(undefined);
   
   // Ensure we're on client side
   useEffect(() => {
     setMounted(true);
+    
+    // Check for saved chat group ID
+    const savedChatGroupId = chatStorage.getChatGroupId();
+    if (savedChatGroupId) {
+      setResumedChatGroupId(savedChatGroupId);
+      console.log('[VoiceProviderWithTone] Resuming chat with group ID:', savedChatGroupId);
+    }
   }, []);
   
   // Select config based on theme
@@ -83,7 +92,12 @@ export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, ...pro
   // Use key to force provider recreation only when config changes
   // This ensures the correct config is used for new connections
   return (
-    <VoiceProvider {...props} configId={themeConfigId} key={`voice-${themeConfigId}`}>
+    <VoiceProvider 
+      {...props} 
+      configId={themeConfigId} 
+      resumedChatGroupId={resumedChatGroupId}
+      key={`voice-${themeConfigId}`}
+    >
       <VoiceWithToneProvider>
         {children}
       </VoiceWithToneProvider>

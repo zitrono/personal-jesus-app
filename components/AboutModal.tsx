@@ -1,20 +1,38 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+import { toast } from "sonner";
+import { chatStorage } from "@/utils/chatStorage";
 
 interface AboutModalProps {
   onClose: () => void;
 }
 
 export const AboutModal = ({ onClose }: AboutModalProps) => {
+  const [sinsForgivenButtonHidden, setSinsForgivenButtonHidden] = useState(false);
+  
   // Handle ESC key press
   const handleEscKey = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") {
       onClose();
     }
   }, [onClose]);
+  
+  // Handle forget sins button click
+  const handleForgetSins = useCallback(() => {
+    chatStorage.clearChatGroupId();
+    toast("What happens in Vatican, stays in Vatican", {
+      duration: 3000,
+      style: {
+        background: 'var(--divine-gold)',
+        color: 'black',
+        fontWeight: 'bold',
+      },
+    });
+    setSinsForgivenButtonHidden(true);
+  }, []);
 
   useEffect(() => {
     // Add event listener for ESC key
@@ -125,6 +143,22 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                   </a>
                   {" "}for his 50th birthday <span className="text-xl">🎂</span>
                 </p>
+                
+                {/* Forget Sins Button */}
+                {!sinsForgivenButtonHidden && chatStorage.hasChatGroupId() && (
+                  <div className="flex justify-center mt-6">
+                    <button
+                      onClick={handleForgetSins}
+                      className="divine-button px-6 py-3 text-base font-semibold
+                               bg-black/70 hover:bg-black/90 
+                               border border-[var(--divine-gold)]
+                               text-[var(--divine-gold)] hover:text-[var(--divine-light)]
+                               transition-all duration-300"
+                    >
+                      Forget My Sins
+                    </button>
+                  </div>
+                )}
                 
                 {/* Quote */}
                 <p className="text-xl sm:text-2xl text-center italic text-[var(--divine-gold)] 

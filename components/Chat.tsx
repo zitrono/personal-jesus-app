@@ -1,7 +1,7 @@
 "use client";
 
 // import { VoiceProviderWithTone } from "./VoiceProviderWithTone";
-import { VoiceProvider } from "@humeai/voice-react";
+import { VoiceProvider, useVoice } from "@humeai/voice-react";
 import Messages from "./Messages";
 import Controls from "./Controls";
 import StartCall from "./StartCall";
@@ -11,6 +11,41 @@ import { toast } from "sonner";
 import { divinifyError } from "@/utils/divineMessages";
 import { chatStorage } from "@/utils/chatStorage";
 import { MediaSessionManager } from "./MediaSessionManager";
+import { useTheme } from "next-themes";
+
+// Internal component that monitors theme changes and disconnects on switch
+function ThemeChangeMonitor() {
+  const { theme } = useTheme();
+  const { status, disconnect } = useVoice();
+  const [mounted, setMounted] = useState(false);
+  const [initialTheme, setInitialTheme] = useState<string | undefined>();
+
+  useEffect(() => {
+    setMounted(true);
+    if (theme) {
+      setInitialTheme(theme);
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    // Only disconnect if:
+    // 1. Component is mounted (not initial SSR)
+    // 2. We have an initial theme set
+    // 3. Theme has actually changed
+    // 4. Call is currently active
+    if (mounted && initialTheme && theme !== initialTheme && status.value === "connected") {
+      console.log('[ThemeChangeMonitor] Theme changed during call, disconnecting:', {
+        from: initialTheme,
+        to: theme,
+        callStatus: status.value
+      });
+      disconnect();
+      setInitialTheme(theme); // Update initial theme for next change
+    }
+  }, [theme, initialTheme, status.value, disconnect, mounted]);
+
+  return null;
+}
 
 export default function ClientComponent({
   accessToken,
@@ -102,6 +137,7 @@ export default function ClientComponent({
       >
         <ChatMetadataMonitor />
         <MediaSessionManager />
+        <ThemeChangeMonitor />
         <Messages ref={ref} />
         <Controls />
         <StartCall accessToken={accessToken} lightConfigId={lightConfigId} darkConfigId={darkConfigId} />

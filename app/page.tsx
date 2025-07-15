@@ -26,7 +26,7 @@ export default async function Page() {
     const darkConfigId = process.env.NEXT_PUBLIC_HUME_CONFIG_ID_DARK;
     
     return (
-      <div className={"grow flex flex-col"}>
+      <div className={"grow flex flex-col h-full"}>
         <Chat accessToken={accessToken} lightConfigId={lightConfigId} darkConfigId={darkConfigId} />
         <PwaInstallPrompt />
       </div>

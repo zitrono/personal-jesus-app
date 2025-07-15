@@ -2,19 +2,32 @@
 import { cn } from "@/utils";
 import { useVoice } from "@humeai/voice-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ComponentRef, forwardRef } from "react";
+import { ComponentRef, forwardRef, useEffect, useRef } from "react";
 
 const Messages = forwardRef<
   ComponentRef<typeof motion.div>,
   Record<never, never>
 >(function Messages(_, ref) {
   const { messages } = useVoice();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    if (scrollRef.current) {
+      console.log('Scrolling to bottom. Messages count:', messages.length);
+      console.log('ScrollHeight:', scrollRef.current.scrollHeight);
+      console.log('ClientHeight:', scrollRef.current.clientHeight);
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
 
   return (
     <motion.div
-      layoutScroll
       className={"grow overflow-auto p-2 pt-24 no-scrollbar"}
-      ref={ref}
+      ref={scrollRef}
     >
       <motion.div
         className={"max-w-2xl mx-auto w-full flex flex-col gap-2 pb-24"}

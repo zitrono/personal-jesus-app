@@ -68,27 +68,12 @@ export default function ClientComponent({
   return (
     <div
       className={
-        "relative grow flex flex-col mx-auto w-full overflow-hidden h-full"
+        "relative grow flex flex-col mx-auto w-full h-full min-h-0"
       }
     >
       <VoiceProvider
         onMessage={() => {
-          if (!isClient) return;
-          
-          if (timeout.current) {
-            window.clearTimeout(timeout.current);
-          }
-
-          timeout.current = window.setTimeout(() => {
-            if (ref.current) {
-              const scrollHeight = ref.current.scrollHeight;
-
-              ref.current.scrollTo({
-                top: scrollHeight,
-                behavior: "smooth",
-              });
-            }
-          }, 200);
+          // Auto-scroll is now handled by Messages component useEffect
         }}
         onError={(error) => {
           // Log the full error object with all metadata

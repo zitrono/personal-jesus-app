@@ -307,7 +307,7 @@ export const Privacy = ({ isModal = false, onClose }: PrivacyProps) => {
         >
           <div className="relative w-full max-w-2xl animate-slideUp mt-4 sm:mt-8">
             {/* Content Container */}
-            <div className="relative rounded-lg overflow-hidden glass-effect bg-black/80">
+            <div className="relative rounded-lg overflow-hidden glass-effect">
               {content}
             </div>
           </div>
@@ -323,9 +323,17 @@ export const Privacy = ({ isModal = false, onClose }: PrivacyProps) => {
 
   // Non-modal page view
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[var(--bg-primary)] to-black">
+    <div className="min-h-screen p-4 sm:p-8">
       <div className="max-w-2xl mx-auto">
-        <div className="glass-effect bg-black/80 rounded-lg overflow-hidden">
+        <div className="mb-4">
+          <a 
+            href="/"
+            className="inline-flex items-center gap-2 text-[var(--divine-gold)] hover:text-[var(--divine-light)] transition-colors"
+          >
+            <span>←</span> Back to Personal Jesus
+          </a>
+        </div>
+        <div className="glass-effect rounded-lg overflow-hidden">
           {content}
         </div>
       </div>

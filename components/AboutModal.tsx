@@ -71,7 +71,7 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                    pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative w-full max-w-2xl animate-slideUp mt-4 sm:mt-8">
+        <div className="relative w-full max-w-3xl animate-slideUp mt-4 sm:mt-8">
           {/* Content Container */}
           <div className="relative rounded-lg overflow-hidden">
             <div className="relative p-4 sm:p-6 space-y-4 max-h-[85vh] overflow-y-auto">

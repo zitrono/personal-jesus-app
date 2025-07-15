@@ -119,11 +119,12 @@ export function DonationCarousel() {
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {donationOptions.map((option) => (
-            <CarouselItem key={option.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+            <CarouselItem key={option.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/2 xl:basis-1/3">
               <div className="p-1">
                 <div className="group relative overflow-hidden rounded-lg border border-[var(--divine-gold)]/30 
                               bg-black/50 backdrop-blur-sm transition-all duration-300
-                              hover:border-[var(--divine-gold)] hover:shadow-[0_0_30px_rgba(var(--divine-gold-rgb),0.3)]">
+                              hover:border-[var(--divine-gold)] hover:shadow-[0_0_30px_rgba(var(--divine-gold-rgb),0.3)]
+                              min-h-[420px] flex flex-col">
                   {/* Image Container */}
                   <div className="relative h-48 overflow-hidden">
                     <img
@@ -136,8 +137,8 @@ export function DonationCarousel() {
                   </div>
                   
                   {/* Content */}
-                  <div className="relative z-20 p-4 space-y-3">
-                    <div>
+                  <div className="relative z-20 p-4 space-y-3 flex-1 flex flex-col">
+                    <div className="flex-1">
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="text-xl font-semibold text-[var(--divine-gold)]">
                           {option.title}
@@ -150,13 +151,13 @@ export function DonationCarousel() {
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-300 mt-1">
+                      <p className="text-sm text-gray-300 mt-1 line-clamp-3">
                         {option.description}
                       </p>
                     </div>
                     
                     {/* Amount and Button */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                       <span className="text-2xl font-bold text-white">
                         {option.amount}
                       </span>
@@ -164,7 +165,7 @@ export function DonationCarousel() {
                         href={option.stripeLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="divine-button-gilded relative z-10 px-4 py-2 text-sm font-semibold"
+                        className="divine-button-gilded relative z-10 px-4 py-2 text-sm font-semibold w-full sm:w-auto text-center"
                         onClick={(e) => {
                           // Track donation click if needed
                           console.log(`Donation clicked: ${option.title} - ${option.amount}`);
@@ -198,7 +199,8 @@ export function DonationCarousel() {
               key={option.id}
               onClick={() => scrollToIndex(index)}
               className={cn(
-                "relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden",
+                "relative flex-shrink-0 rounded-lg overflow-hidden",
+                "w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24",
                 "border-2 transition-all duration-300",
                 "hover:scale-105",
                 selectedIndex === index
@@ -228,8 +230,8 @@ export function DonationCarousel() {
       </div>
       
       {/* Mobile Scroll Indicator - now shows autoplay status */}
-      <div className="flex justify-center gap-1">
-        <div className="text-xs text-gray-400">
+      <div className="flex justify-center gap-1 mt-2">
+        <div className="text-xs text-gray-400 bg-black/30 px-3 py-1 rounded-full">
           {isDesktop ? "Auto-playing • Click thumbnails to navigate" : "Swipe for more options"}
         </div>
       </div>

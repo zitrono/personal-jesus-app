@@ -155,11 +155,7 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                   <div className="flex justify-center mt-6">
                     <button
                       onClick={handleForgetSins}
-                      className="divine-button px-6 py-3 text-base font-semibold
-                               bg-black/70 hover:bg-black/90 
-                               border border-[var(--divine-gold)]
-                               text-[var(--divine-gold)] hover:text-[var(--divine-light)]
-                               transition-all duration-300"
+                      className="divine-button-gilded px-6 py-3 text-base rounded-md"
                     >
                       Forget My Sins
                     </button>
@@ -182,6 +178,19 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                             mt-8">
                   "Reach out and touch faith"
                 </p>
+                
+                {/* Privacy Link */}
+                <div className="text-center pt-6 border-t border-white/10">
+                  <a 
+                    href="/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-400 hover:text-[var(--divine-gold)] 
+                             transition-colors underline underline-offset-4"
+                  >
+                    Privacy & Disclaimers
+                  </a>
+                </div>
               </div>
             </div>
           </div>

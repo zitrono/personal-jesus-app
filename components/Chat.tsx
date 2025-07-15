@@ -9,6 +9,7 @@ import { ComponentRef, useRef, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { divinifyError } from "@/utils/divineMessages";
 import { chatStorage } from "@/utils/chatStorage";
+import { MediaSessionManager } from "./MediaSessionManager";
 
 export default function ClientComponent({
   accessToken,
@@ -96,6 +97,7 @@ export default function ClientComponent({
         }}
       >
         <ChatMetadataMonitor />
+        <MediaSessionManager />
         <Messages ref={ref} />
         <Controls />
         <StartCall />

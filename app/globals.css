@@ -296,6 +296,48 @@
   letter-spacing: 0.5px;
 }
 
+/* Renaissance Gilded Button Style */
+.divine-button-gilded {
+  background: black;
+  border: 2px solid var(--divine-gold);
+  color: var(--divine-gold);
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.divine-button-gilded::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(from 180deg, var(--divine-gold), transparent, var(--divine-gold));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.divine-button-gilded:hover::after {
+  opacity: 1;
+  animation: spin 3s linear infinite;
+}
+
+.divine-button-gilded:hover {
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  transform: translateY(-1px);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Ensure buttons and UI elements are visible over background */
 button {
   position: relative;

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Autoplay from "embla-carousel-autoplay";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
 interface DonationOption {
@@ -21,7 +21,7 @@ const donationOptions: DonationOption[] = [
     title: "Prayer Candle",
     description: "Light a virtual candle for your intention—pick as many flames as you wish.",
     amount: "$2 each",
-    stripeLink: "https://buy.stripe.com/test_YOUR_LINK_HERE", // Replace with actual Stripe link
+    stripeLink: "https://buy.stripe.com/aFa28s1hS5BP6qqa3xdby02",
     imageUrl: "/mobile-optimized/candles.jpg"
   },
   {
@@ -29,7 +29,7 @@ const donationOptions: DonationOption[] = [
     title: "Indulgence",
     description: "A symbolic absolution—support the mission and feel forgiven.",
     amount: "$10",
-    stripeLink: "https://buy.stripe.com/test_YOUR_LINK_HERE", // Replace with actual Stripe link
+    stripeLink: "https://buy.stripe.com/5kQ00kgcM0hv3eea3xdby03",
     imageUrl: "/mobile-optimized/indulgence.jpg"
   },
   {
@@ -37,7 +37,7 @@ const donationOptions: DonationOption[] = [
     title: "Daily Bread Club",
     description: "A small monthly tithe that keeps the line open 24/7 for everyone.",
     amount: "$9.99/month",
-    stripeLink: "https://buy.stripe.com/test_YOUR_LINK_HERE", // Replace with actual Stripe link
+    stripeLink: "https://buy.stripe.com/9B64gA7GgfcpbKKfnRdby04",
     imageUrl: "/mobile-optimized/bread.jpg",
     isRecurring: true
   },
@@ -46,7 +46,7 @@ const donationOptions: DonationOption[] = [
     title: "Loaves & Fish Gift", 
     description: "One-time boost that feeds the mission and sponsors free calls for others.",
     amount: "$29",
-    stripeLink: "https://buy.stripe.com/test_YOUR_LINK_HERE", // Replace with actual Stripe link
+    stripeLink: "https://buy.stripe.com/6oU9AU0dO5BPdSSdfJdby05",
     imageUrl: "/mobile-optimized/fish gift.jpg"
   },
   {
@@ -54,7 +54,7 @@ const donationOptions: DonationOption[] = [
     title: "Patron Saint Sponsorship",
     description: "High-impact monthly pledge sustaining long-term outreach and development.",
     amount: "$49/month",
-    stripeLink: "https://buy.stripe.com/test_YOUR_LINK_HERE", // Replace with actual Stripe link
+    stripeLink: "https://buy.stripe.com/6oU14o7Gg9S50224Jddby06",
     imageUrl: "/mobile-optimized/heart.jpg",
     isRecurring: true
   }
@@ -136,7 +136,7 @@ export function DonationCarousel() {
                   </div>
                   
                   {/* Content */}
-                  <div className="relative p-4 space-y-3">
+                  <div className="relative z-20 p-4 space-y-3">
                     <div>
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="text-xl font-semibold text-[var(--divine-gold)]">
@@ -164,12 +164,7 @@ export function DonationCarousel() {
                         href={option.stripeLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={cn(
-                          "divine-button px-4 py-2 text-sm font-semibold",
-                          "bg-[var(--divine-gold)] text-black",
-                          "hover:bg-[var(--divine-light)] hover:shadow-[0_0_20px_rgba(var(--divine-gold-rgb),0.5)]",
-                          "transition-all duration-300"
-                        )}
+                        className="divine-button-gilded relative z-10 px-4 py-2 text-sm font-semibold"
                         onClick={(e) => {
                           // Track donation click if needed
                           console.log(`Donation clicked: ${option.title} - ${option.amount}`);
@@ -181,7 +176,7 @@ export function DonationCarousel() {
                   </div>
                   
                   {/* Hover Glow Effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                     <div className="absolute inset-0 bg-gradient-to-r from-[var(--divine-gold)]/10 
                                   via-transparent to-[var(--divine-gold)]/10" />
                   </div>
@@ -190,19 +185,11 @@ export function DonationCarousel() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden sm:flex -left-12 border-[var(--divine-gold)]/50 
-                                   bg-black/70 text-[var(--divine-gold)]
-                                   hover:bg-black/90 hover:border-[var(--divine-gold)]
-                                   hover:text-[var(--divine-light)]" />
-        <CarouselNext className="hidden sm:flex -right-12 border-[var(--divine-gold)]/50 
-                               bg-black/70 text-[var(--divine-gold)]
-                               hover:bg-black/90 hover:border-[var(--divine-gold)]
-                               hover:text-[var(--divine-light)]" />
         </Carousel>
       </div>
       
       {/* Thumbnail Navigation */}
-      <div className="px-2">
+      <div className="hidden sm:block px-2">
         <div className="flex justify-center gap-2 overflow-x-auto pb-2 
                       scrollbar-thin scrollbar-thumb-[var(--divine-gold)]/30 
                       scrollbar-track-transparent">

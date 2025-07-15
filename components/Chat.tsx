@@ -8,6 +8,7 @@ import { ChatMetadataMonitor } from "./ChatMetadataMonitor";
 import { ComponentRef, useRef, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { divinifyError } from "@/utils/divineMessages";
+import { chatStorage } from "@/utils/chatStorage";
 
 export default function ClientComponent({
   accessToken,
@@ -50,7 +51,48 @@ export default function ClientComponent({
           }, 200);
         }}
         onError={(error) => {
-          toast.error(divinifyError(error.message));
+          // Log the full error object with all metadata
+          console.error('[Chat Error] Full error details:', {
+            error: error,
+            message: error.message,
+            type: error.type,
+            // Additional properties that might exist
+            code: (error as any).code,
+            metadata: (error as any).metadata,
+            stack: (error as any).stack,
+            timestamp: new Date().toISOString(),
+            hasResumedChatGroupId: !!chatStorage.getChatGroupId(),
+            resumedChatGroupId: chatStorage.getChatGroupId()
+          });
+          
+          const errorMessage = error.message || '';
+          
+          // Check for specific chat group ID error codes
+          if (errorMessage.includes('E0708') || 
+              errorMessage.includes('chat group does not exist') ||
+              errorMessage.includes('E0710') || 
+              errorMessage.includes('E0717')) {
+            
+            console.log('[Chat Error] Detected chat group ID error, clearing stored ID');
+            
+            // Clear the invalid chat group ID
+            chatStorage.clearChatGroupId();
+            
+            // Show user-friendly message based on error type
+            if (errorMessage.includes('E0708')) {
+              toast.info("Starting fresh conversation - previous session not found");
+            } else if (errorMessage.includes('E0710')) {
+              toast.info("Starting fresh conversation - configuration has changed");
+            } else if (errorMessage.includes('E0717')) {
+              toast.info("Chat session is already active elsewhere");
+            }
+            
+            // Force a page reload to reset the VoiceProvider
+            setTimeout(() => window.location.reload(), 1500);
+          } else {
+            // Show the normal error message for other errors
+            toast.error(divinifyError(error.message));
+          }
         }}
       >
         <ChatMetadataMonitor />

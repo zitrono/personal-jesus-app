@@ -2,18 +2,13 @@ const CHAT_GROUP_ID_KEY = 'personal-jesus-chat-group-id';
 
 export const chatStorage = {
   /**
-   * Save chat group ID to localStorage if not already saved
+   * Save chat group ID to localStorage (always overwrites)
    */
   saveChatGroupId: (chatGroupId: string): void => {
     if (typeof window === 'undefined') return;
     
-    const existing = localStorage.getItem(CHAT_GROUP_ID_KEY);
-    if (!existing) {
-      localStorage.setItem(CHAT_GROUP_ID_KEY, chatGroupId);
-      console.log('[ChatStorage] Saved chat group ID:', chatGroupId);
-    } else {
-      console.log('[ChatStorage] Chat group ID already exists:', existing);
-    }
+    localStorage.setItem(CHAT_GROUP_ID_KEY, chatGroupId);
+    console.log('[ChatStorage] Saved chat group ID:', chatGroupId);
   },
 
   /**

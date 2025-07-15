@@ -3,6 +3,7 @@
 import { useVoice } from "@humeai/voice-react";
 import { useCallback } from "react";
 import { divineMessages } from "@/utils/divineMessages";
+import { chatStorage } from "@/utils/chatStorage";
 
 /**
  * Custom hook that wraps the original useVoice hook to play connection tone
@@ -14,6 +15,24 @@ export const useVoiceWithTone = () => {
   
   // Override the connect method to inject connection tone
   const connect = useCallback(async () => {
+    // Log the connection context including any resumed chat info
+    const storedChatGroupId = chatStorage.getChatGroupId();
+    const connectionContext = {
+      timestamp: new Date().toISOString(),
+      hasVoiceContext: !!originalVoice,
+      readyState: (originalVoice as any)?.readyState,
+      storedChatGroupId: storedChatGroupId,
+      // Try to access provider props if available
+      resumedChatGroupId: (originalVoice as any)?._resumedChatGroupId || 
+                         (originalVoice as any)?.resumedChatGroupId ||
+                         'not accessible from voice context',
+      configId: (originalVoice as any)?._configId || 
+                (originalVoice as any)?.configId ||
+                'not accessible from voice context'
+    };
+    
+    console.log('[useVoiceWithTone] Connect method called with context:', connectionContext);
+    
     try {
       // Create audio element and prime it immediately within user gesture context
       // This is critical for mobile browsers (iOS/Android) which require audio
@@ -60,7 +79,9 @@ export const useVoiceWithTone = () => {
       micStream.getTracks().forEach(track => track.stop());
       
       // Now proceed with the original Hume connection
+      console.log('[useVoiceWithTone] Calling originalVoice.connect()');
       await originalVoice.connect();
+      console.log('[useVoiceWithTone] Connection successful');
       
     } catch (error) {
       // Handle permission denied or connection errors

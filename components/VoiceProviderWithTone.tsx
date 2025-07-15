@@ -43,18 +43,10 @@ const VoiceWithToneProvider: FC<{ children: React.ReactNode }> = ({ children }) 
 export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, ...props }) => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [resumedChatGroupId, setResumedChatGroupId] = useState<string | undefined>(undefined);
   
   // Ensure we're on client side
   useEffect(() => {
     setMounted(true);
-    
-    // Check for saved chat group ID
-    const savedChatGroupId = chatStorage.getChatGroupId();
-    if (savedChatGroupId) {
-      setResumedChatGroupId(savedChatGroupId);
-      console.log('[VoiceProviderWithTone] Resuming chat with group ID:', savedChatGroupId);
-    }
   }, []);
   
   // Select config based on theme
@@ -84,18 +76,39 @@ export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, ...pro
     return lightConfig;
   }, [mounted, theme]);
   
+  
   // Prevent any rendering during SSR to avoid useRef errors
   if (!mounted) {
     return null;
   }
   
-  // Use key to force provider recreation only when config changes
-  // This ensures the correct config is used for new connections
+  // Create the props object for better logging
+  // Read resumedChatGroupId directly from localStorage
+  const voiceProviderProps = {
+    ...props,
+    configId: themeConfigId,
+    resumedChatGroupId: chatStorage.getChatGroupId() || undefined
+  };
+  
+  // Log the exact props being passed to VoiceProvider
+  console.log('[VoiceProviderWithTone] VoiceProvider props:', {
+    configId: voiceProviderProps.configId,
+    resumedChatGroupId: voiceProviderProps.resumedChatGroupId,
+    auth: voiceProviderProps.auth ? { 
+      type: voiceProviderProps.auth.type, 
+      hasValue: !!voiceProviderProps.auth.value 
+    } : undefined,
+    sessionSettings: voiceProviderProps.sessionSettings,
+    onMessage: !!voiceProviderProps.onMessage,
+    onError: !!voiceProviderProps.onError,
+    timestamp: new Date().toISOString()
+  });
+  
+  // Use key to force provider recreation when config or resumedChatGroupId changes
+  // This ensures the correct config and chat group are used for new connections
   return (
     <VoiceProvider 
-      {...props} 
-      configId={themeConfigId} 
-      resumedChatGroupId={resumedChatGroupId}
+      {...voiceProviderProps}
       key={`voice-${themeConfigId}`}
     >
       <VoiceWithToneProvider>

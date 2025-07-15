@@ -46,10 +46,10 @@ export default function StartCall({
   const selectedConfigId = useMemo(() => {
     if (!mounted) {
       console.log('[StartCall] Using light config during SSR');
-      return lightConfigId;
+      return lightConfigId?.trim();
     }
     
-    const configId = theme === 'dark' ? darkConfigId : lightConfigId;
+    const configId = (theme === 'dark' ? darkConfigId : lightConfigId)?.trim();
     console.log('[StartCall] Theme-based config selection:', {
       theme,
       selectedConfig: theme === 'dark' ? 'dark' : 'light',

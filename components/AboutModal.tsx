@@ -24,7 +24,7 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
   const handleForgetSins = useCallback(() => {
     chatStorage.clearChatGroupId();
     toast("What happens in Vatican, stays in Vatican", {
-      duration: 3000,
+      duration: 2500,
       style: {
         background: 'var(--divine-gold)',
         color: 'black',
@@ -32,6 +32,11 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
       },
     });
     setSinsForgivenButtonHidden(true);
+    
+    // Reload page after toast is visible
+    setTimeout(() => {
+      window.location.reload();
+    }, 2500);
   }, []);
 
   useEffect(() => {

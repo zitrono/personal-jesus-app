@@ -307,7 +307,7 @@ export const Privacy = ({ isModal = false, onClose }: PrivacyProps) => {
         >
           <div className="relative w-full max-w-2xl animate-slideUp mt-4 sm:mt-8">
             {/* Content Container */}
-            <div className="relative rounded-lg overflow-hidden">
+            <div className="relative rounded-lg overflow-hidden glass-effect bg-black/80">
               {content}
             </div>
           </div>
@@ -325,7 +325,9 @@ export const Privacy = ({ isModal = false, onClose }: PrivacyProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[var(--bg-primary)] to-black">
       <div className="max-w-2xl mx-auto">
-        {content}
+        <div className="glass-effect bg-black/80 rounded-lg overflow-hidden">
+          {content}
+        </div>
       </div>
     </div>
   );

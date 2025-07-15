@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 import { chatStorage } from "@/utils/chatStorage";
+import { DonationCarousel } from "@/components/DonationCarousel";
 
 interface AboutModalProps {
   onClose: () => void;
@@ -165,9 +166,20 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                   </div>
                 )}
                 
+                {/* Donation Section */}
+                <div className="mt-8 space-y-4">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-center text-[var(--divine-gold)]">
+                    Keep the Line Open
+                  </h2>
+                  <p className="text-center text-gray-300 text-base sm:text-lg">
+                    Your donations help us spread the word and maintain this divine connection
+                  </p>
+                  <DonationCarousel />
+                </div>
+                
                 {/* Quote */}
                 <p className="text-xl sm:text-2xl text-center italic text-[var(--divine-gold)] 
-                            mt-6">
+                            mt-8">
                   "Reach out and touch faith"
                 </p>
               </div>

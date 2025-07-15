@@ -14,10 +14,6 @@ export const Nav = () => {
   const [showAboutModal, setShowAboutModal] = useState(false);
 
   const handleUpdate = () => {
-    // Clear PWA install prompt from localStorage so it can show again after update
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.removeItem('pwa-install-prompt');
-    }
     activate();
   };
 

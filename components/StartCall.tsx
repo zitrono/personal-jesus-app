@@ -35,17 +35,20 @@ export default function StartCall({ accessToken, configId }: { accessToken: stri
                 className={"z-50 flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl divine-glow renaissance-pulse"}
                 onClick={() => {
                   // Using vanilla auth pattern - passing auth in connect() method
-                  // Clear any stored chat group ID to test fresh connection
-                  chatStorage.clearChatGroupId();
+                  // Read saved chat group ID for conversation continuity
+                  const savedChatGroupId = chatStorage.getChatGroupId();
                   
                   console.log('[StartCall] Connecting with:', { 
                     hasAuth: !!accessToken, 
                     configId,
-                    authType: 'accessToken'
+                    authType: 'accessToken',
+                    resumedChatGroupId: savedChatGroupId || 'none (new chat)'
                   });
+                  
                   connect({
                     auth: { type: "accessToken", value: accessToken },
-                    configId: configId
+                    configId: configId,
+                    resumedChatGroupId: savedChatGroupId || undefined
                   })
                     .then(() => {
                       console.log('[StartCall] Connection successful');

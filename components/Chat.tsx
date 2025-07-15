@@ -14,10 +14,12 @@ import { MediaSessionManager } from "./MediaSessionManager";
 
 export default function ClientComponent({
   accessToken,
-  configId,
+  lightConfigId,
+  darkConfigId,
 }: {
   accessToken: string;
-  configId?: string;
+  lightConfigId?: string;
+  darkConfigId?: string;
 }) {
   const [isClient, setIsClient] = useState(false);
   const timeout = useRef<number | null>(null);
@@ -102,7 +104,7 @@ export default function ClientComponent({
         <MediaSessionManager />
         <Messages ref={ref} />
         <Controls />
-        <StartCall accessToken={accessToken} configId={configId} />
+        <StartCall accessToken={accessToken} lightConfigId={lightConfigId} darkConfigId={darkConfigId} />
       </VoiceProvider>
     </div>
   );

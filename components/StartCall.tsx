@@ -5,9 +5,42 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Phone } from "lucide-react";
 import { chatStorage } from "@/utils/chatStorage";
+import { useTheme } from "next-themes";
+import { useState, useEffect, useMemo } from "react";
 
-export default function StartCall({ accessToken, configId }: { accessToken: string; configId?: string }) {
+export default function StartCall({ 
+  accessToken, 
+  lightConfigId, 
+  darkConfigId 
+}: { 
+  accessToken: string; 
+  lightConfigId?: string;
+  darkConfigId?: string;
+}) {
   const { status, connect } = useVoice();
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Handle SSR
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Select config based on theme
+  const selectedConfigId = useMemo(() => {
+    if (!mounted) {
+      console.log('[StartCall] Using light config during SSR');
+      return lightConfigId;
+    }
+    
+    const configId = theme === 'dark' ? darkConfigId : lightConfigId;
+    console.log('[StartCall] Theme-based config selection:', {
+      theme,
+      selectedConfig: theme === 'dark' ? 'dark' : 'light',
+      configId
+    });
+    return configId;
+  }, [mounted, theme, lightConfigId, darkConfigId]);
 
   return (
     <AnimatePresence>
@@ -40,14 +73,15 @@ export default function StartCall({ accessToken, configId }: { accessToken: stri
                   
                   console.log('[StartCall] Connecting with:', { 
                     hasAuth: !!accessToken, 
-                    configId,
+                    configId: selectedConfigId,
+                    theme: mounted ? theme : 'not-mounted',
                     authType: 'accessToken',
                     resumedChatGroupId: savedChatGroupId || 'none (new chat)'
                   });
                   
                   connect({
                     auth: { type: "accessToken", value: accessToken },
-                    configId: configId,
+                    configId: selectedConfigId,
                     resumedChatGroupId: savedChatGroupId || undefined
                   })
                     .then(() => {

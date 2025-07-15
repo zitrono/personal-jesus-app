@@ -84,10 +84,17 @@ export const VoiceProviderWithTone: FC<VoiceProviderProps> = ({ children, ...pro
   
   // Create the props object for better logging
   // Read resumedChatGroupId directly from localStorage
+  const savedChatGroupId = chatStorage.getChatGroupId();
+  console.log('[VoiceProviderWithTone] Reading from localStorage:', {
+    savedChatGroupId,
+    hasValue: !!savedChatGroupId,
+    timestamp: new Date().toISOString()
+  });
+  
   const voiceProviderProps = {
     ...props,
     configId: themeConfigId,
-    resumedChatGroupId: chatStorage.getChatGroupId() || undefined
+    resumedChatGroupId: savedChatGroupId || undefined
   };
   
   // Log the exact props being passed to VoiceProvider

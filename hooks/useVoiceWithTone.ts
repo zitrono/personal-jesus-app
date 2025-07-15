@@ -33,6 +33,12 @@ export const useVoiceWithTone = () => {
     
     console.log('[useVoiceWithTone] Connect method called with context:', connectionContext);
     
+    // Log what will be used for connection
+    console.log('[useVoiceWithTone] Connection will use:', {
+      storedChatGroupId: storedChatGroupId || 'none (new chat will be created)',
+      timestamp: new Date().toISOString()
+    });
+    
     try {
       // Create audio element and prime it immediately within user gesture context
       // This is critical for mobile browsers (iOS/Android) which require audio

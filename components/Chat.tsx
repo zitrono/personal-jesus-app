@@ -1,6 +1,7 @@
 "use client";
 
-import { VoiceProviderWithTone } from "./VoiceProviderWithTone";
+// import { VoiceProviderWithTone } from "./VoiceProviderWithTone";
+import { VoiceProvider } from "@humeai/voice-react";
 import Messages from "./Messages";
 import Controls from "./Controls";
 import StartCall from "./StartCall";
@@ -13,8 +14,10 @@ import { MediaSessionManager } from "./MediaSessionManager";
 
 export default function ClientComponent({
   accessToken,
+  configId,
 }: {
   accessToken: string;
+  configId?: string;
 }) {
   const [isClient, setIsClient] = useState(false);
   const timeout = useRef<number | null>(null);
@@ -31,8 +34,7 @@ export default function ClientComponent({
         "relative grow flex flex-col mx-auto w-full overflow-hidden h-[0px]"
       }
     >
-      <VoiceProviderWithTone
-        auth={{ type: "accessToken", value: accessToken }}
+      <VoiceProvider
         onMessage={() => {
           if (!isClient) return;
           
@@ -100,8 +102,8 @@ export default function ClientComponent({
         <MediaSessionManager />
         <Messages ref={ref} />
         <Controls />
-        <StartCall />
-      </VoiceProviderWithTone>
+        <StartCall accessToken={accessToken} configId={configId} />
+      </VoiceProvider>
     </div>
   );
 }

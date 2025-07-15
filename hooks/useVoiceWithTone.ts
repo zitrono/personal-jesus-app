@@ -14,7 +14,30 @@ export const useVoiceWithTone = () => {
   const originalVoice = useVoice();
   
   // Override the connect method to inject connection tone
-  const connect = useCallback(async () => {
+  const connect = useCallback(async (options?: any) => {
+    // TEMPORARILY DISABLED: Custom microphone handling to test echo issue
+    // The code below creates a separate getUserMedia stream which may interfere
+    // with Hume's audio handling and cause echo cancellation problems
+    
+    console.log('[useVoiceWithTone] Connect method called - using vanilla connection with options:', options);
+    
+    try {
+      // For now, just call the original connect method directly
+      // without any custom audio handling, but PASS THROUGH THE OPTIONS
+      await originalVoice.connect(options);
+      console.log('[useVoiceWithTone] Connection successful');
+      
+    } catch (error) {
+      // Handle permission denied or connection errors
+      if (error instanceof Error && error.name === 'NotAllowedError') {
+        console.error(divineMessages.microphonePermissionDenied);
+      } else {
+        console.error(divineMessages.connectionFailed, error);
+      }
+      throw error;
+    }
+    
+    /* ORIGINAL CODE - TEMPORARILY COMMENTED OUT
     // Log the connection context including any resumed chat info
     const storedChatGroupId = chatStorage.getChatGroupId();
     const connectionContext = {
@@ -98,6 +121,7 @@ export const useVoiceWithTone = () => {
       }
       throw error;
     }
+    */
   }, [originalVoice]);
 
   // Return all original voice properties but with our custom connect method

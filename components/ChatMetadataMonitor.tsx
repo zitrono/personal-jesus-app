@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useVoice } from "./VoiceProviderWithTone";
+import { useVoice } from "@humeai/voice-react";
 import { chatStorage } from "@/utils/chatStorage";
 
 export function ChatMetadataMonitor() {

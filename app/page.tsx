@@ -22,9 +22,11 @@ export default async function Page() {
       throw new Error('The divine connection isn\'t quite ready yet. Give me a moment to prepare.');
     }
     
+    const configId = process.env.NEXT_PUBLIC_HUME_CONFIG_ID;
+    
     return (
       <div className={"grow flex flex-col"}>
-        <Chat accessToken={accessToken} />
+        <Chat accessToken={accessToken} configId={configId} />
         <PwaInstallPrompt />
       </div>
     );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from 'react';
-import { useVoice } from '@/components/VoiceProviderWithTone';
+import { useVoice } from '@humeai/voice-react';
 
 export const useMediaSession = () => {
   const { status } = useVoice();

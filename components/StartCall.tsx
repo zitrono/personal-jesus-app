@@ -1,11 +1,12 @@
 'use client';
 
-import { useVoice } from "./VoiceProviderWithTone";
+import { useVoice } from "@humeai/voice-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Phone } from "lucide-react";
+import { chatStorage } from "@/utils/chatStorage";
 
-export default function StartCall() {
+export default function StartCall({ accessToken, configId }: { accessToken: string; configId?: string }) {
   const { status, connect } = useVoice();
 
   return (
@@ -32,11 +33,26 @@ export default function StartCall() {
             >
               <Button
                 className={"z-50 flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl divine-glow renaissance-pulse"}
-                onClick={async () => {
-                  // Connection tone now plays automatically after microphone permission
-                  connect()
-                    .then(() => {})
-                    .catch(() => {})
+                onClick={() => {
+                  // Using vanilla auth pattern - passing auth in connect() method
+                  // Clear any stored chat group ID to test fresh connection
+                  chatStorage.clearChatGroupId();
+                  
+                  console.log('[StartCall] Connecting with:', { 
+                    hasAuth: !!accessToken, 
+                    configId,
+                    authType: 'accessToken'
+                  });
+                  connect({
+                    auth: { type: "accessToken", value: accessToken },
+                    configId: configId
+                  })
+                    .then(() => {
+                      console.log('[StartCall] Connection successful');
+                    })
+                    .catch((error) => {
+                      console.error('[StartCall] Connection failed:', error);
+                    })
                     .finally(() => {});
                 }}
               >

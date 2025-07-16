@@ -26,7 +26,7 @@ const Messages = forwardRef<
 
   return (
     <motion.div
-      className={"grow overflow-auto p-2 pt-24 no-scrollbar"}
+      className={"grow overflow-auto p-2 pt-safe pb-24 no-scrollbar"}
       ref={scrollRef}
     >
       <motion.div

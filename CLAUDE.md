@@ -92,6 +92,9 @@ axiom query personal-jesus --nocache \
 **Theme Integration**: "Personal Jesus" by Depeche Mode - "Reach out, touch faith" motifs
 **Note**: App UI only - Hume AI generates all dialogue based on their configured role
 
+## HUME2 Account (Active)
+Using secondary Hume account due to credit depletion. Voices: ITO (light), DACHER (dark). Original HUME creds commented in `.env.local`.
+
 ## Troubleshooting
 
 **WebSocket/Connection Issues:**

@@ -12,6 +12,7 @@ import { divinifyError } from "@/utils/divineMessages";
 import { chatStorage } from "@/utils/chatStorage";
 import { MediaSessionManager } from "./MediaSessionManager";
 import { useTheme } from "next-themes";
+import { useHumeToken } from "@/hooks/useHumeToken";
 
 // Internal component that monitors theme changes and disconnects on switch
 function ThemeChangeMonitor() {
@@ -48,14 +49,13 @@ function ThemeChangeMonitor() {
 }
 
 export default function ClientComponent({
-  accessToken,
   lightConfigId,
   darkConfigId,
 }: {
-  accessToken: string;
   lightConfigId?: string;
   darkConfigId?: string;
 }) {
+  const { token: accessToken, loading } = useHumeToken();
   const [isClient, setIsClient] = useState(false);
   const timeout = useRef<number | null>(null);
   const ref = useRef<ComponentRef<typeof Messages> | null>(null);
@@ -64,6 +64,14 @@ export default function ClientComponent({
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  if (loading || !accessToken) {
+    return (
+      <div className="relative grow flex flex-col mx-auto w-full h-full min-h-0 items-center justify-center">
+        <div className="text-divine-light dark:text-divine-gold">Preparing divine connection...</div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -91,6 +99,22 @@ export default function ClientComponent({
           });
           
           const errorMessage = error.message || '';
+          
+          // Check for billing/credit errors
+          if (errorMessage.includes('Exhausted credit balance') || 
+              errorMessage.includes('credit') || 
+              errorMessage.includes('billing')) {
+            console.log('[Chat Error] Detected billing/credit error');
+            toast.error("Divine funds depleted");
+            return; // Don't show generic error or reload
+          }
+          
+          // Ignore WebSocket retry errors that follow auth failures
+          if (errorMessage.includes('A websocket connection could not be established') && 
+              errorMessage.includes('Max retries (0) reached')) {
+            console.log('[Chat Error] Ignoring WebSocket retry error (likely due to previous auth failure)');
+            return; // Silent fail - user already saw the real error
+          }
           
           // Check for specific chat group ID error codes
           if (errorMessage.includes('E0708') || 
@@ -125,7 +149,7 @@ export default function ClientComponent({
         <ThemeChangeMonitor />
         <Messages ref={ref} />
         <Controls />
-        <StartCall accessToken={accessToken} lightConfigId={lightConfigId} darkConfigId={darkConfigId} />
+        <StartCall accessToken={accessToken!} lightConfigId={lightConfigId} darkConfigId={darkConfigId} isLoading={loading} />
       </VoiceProvider>
     </div>
   );

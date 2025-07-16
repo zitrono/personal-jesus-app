@@ -213,6 +213,19 @@ export const Privacy = ({ isModal = false, onClose }: PrivacyProps) => {
                 </p>
               </div>
               
+              {/* Anthropic */}
+              <div className="p-3 bg-black/30 rounded-lg border border-white/10">
+                <p className="font-semibold text-[var(--divine-gold)] mb-1">Anthropic</p>
+                <p className="text-sm">
+                  <strong>What they get:</strong> Conversation transcripts and context<br/>
+                  <strong>Why:</strong> To power AI language model responses and generate empathetic replies<br/>
+                  <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener noreferrer"
+                     className="text-[var(--divine-gold)] hover:text-[var(--divine-light)] underline">
+                    View Anthropic's Privacy Policy
+                  </a>
+                </p>
+              </div>
+              
               {/* Vercel */}
               <div className="p-3 bg-black/30 rounded-lg border border-white/10">
                 <p className="font-semibold text-[var(--divine-gold)] mb-1">Vercel</p>

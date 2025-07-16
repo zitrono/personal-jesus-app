@@ -19,7 +19,7 @@ export const useCallTone = () => {
   // Initialize audio element
   const initializeAudio = useCallback(() => {
     if (!audioRef.current) {
-      audioRef.current = new Audio('/personal_jesus_connect_tone.wav');
+      audioRef.current = new Audio('/personal_jesus_connect_tone.m4a');
       audioRef.current.preload = 'auto';
       
       // Set up event listeners

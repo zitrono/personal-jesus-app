@@ -12,11 +12,13 @@ import { useCallTone } from "@/hooks/useCallTone";
 export default function StartCall({ 
   accessToken, 
   lightConfigId, 
-  darkConfigId 
+  darkConfigId,
+  isLoading 
 }: { 
   accessToken: string; 
   lightConfigId?: string;
   darkConfigId?: string;
+  isLoading: boolean;
 }) {
   const { status, connect } = useVoice();
   const { theme } = useTheme();
@@ -81,7 +83,8 @@ export default function StartCall({
               }}
             >
               <Button
-                className={"z-50 flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl divine-glow renaissance-pulse"}
+                className={"z-50 flex items-center gap-1.5 rounded-full backdrop-blur-md shadow-2xl divine-glow renaissance-pulse disabled:opacity-50 disabled:cursor-not-allowed"}
+                disabled={isLoading || status.value === "connecting"}
                 onClick={async () => {
                   // Using vanilla auth pattern - passing auth in connect() method
                   // Read saved chat group ID for conversation continuity
@@ -140,7 +143,13 @@ export default function StartCall({
                     strokeWidth={0}
                   />
                 </span>
-                <span>Touch Faith</span>
+                <span>
+                  {isLoading
+                    ? "Connecting..."
+                    : status.value === "connecting"
+                    ? "Waking spirit..."
+                    : "Touch Faith"}
+                </span>
               </Button>
             </motion.div>
           </AnimatePresence>

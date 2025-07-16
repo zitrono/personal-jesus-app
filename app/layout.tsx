@@ -60,7 +60,7 @@ export default function RootLayout({
         className={cn(
           GeistSans.variable,
           GeistMono.variable,
-          "flex flex-col h-full"
+          "h-screen flex flex-col"
         )}
       >
         <Providers>{children}</Providers>

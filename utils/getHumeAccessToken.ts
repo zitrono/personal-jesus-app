@@ -3,8 +3,8 @@ import 'server-only';
 import { fetchAccessToken } from "hume";
 
 export const getHumeAccessToken = async () => {
-  const apiKey = process.env.HUME_API_KEY;
-  const secretKey = process.env.HUME_SECRET_KEY;
+  const apiKey = process.env.HUME_API_KEY?.trim();
+  const secretKey = process.env.HUME_SECRET_KEY?.trim();
 
   console.log('Reference env check:', {
     apiKeyExists: !!apiKey,
@@ -18,8 +18,8 @@ export const getHumeAccessToken = async () => {
   }
 
   const accessToken = await fetchAccessToken({
-    apiKey: String(process.env.HUME_API_KEY),
-    secretKey: String(process.env.HUME_SECRET_KEY),
+    apiKey: apiKey,
+    secretKey: secretKey,
   });
 
   console.log('Reference token result:', { 

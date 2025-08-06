@@ -99,17 +99,30 @@ export default function StartCall({
                   });
                   
                   try {
-                    // Step 1: Prime the connection tone immediately within user gesture
+                    // Step 1: Prime iOS audio session for speaker output
+                    // This fixes the iOS speaker mode volume issue by ensuring the audio session
+                    // is configured for media playback (full volume) rather than telephony (low volume)
+                    console.log('[StartCall] Priming audio session for iOS speaker mode...');
+                    const audioElement = new Audio();
+                    // Silent WAV file (1ms of silence) encoded in base64
+                    audioElement.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+                    audioElement.play().catch(e => {
+                      // Playback may fail on some browsers, but the attempt itself
+                      // often configures the audio session correctly
+                      console.warn('[StartCall] Audio priming play() failed (expected on some browsers):', e);
+                    });
+
+                    // Step 2: Prime the connection tone immediately within user gesture
                     // This is critical for iOS and mobile browsers
                     await playTone();
                     
-                    // Step 2: Request microphone permission to activate audio context
+                    // Step 3: Request microphone permission to activate audio context
                     // This also prepares the audio environment for Hume
                     try {
                       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                       console.log('[StartCall] Microphone permission granted');
                       
-                      // Step 3: Retry tone playback now that audio context is active
+                      // Step 4: Retry tone playback now that audio context is active
                       await retryPlayback();
                       
                       // Clean up the permission stream (Hume will create its own)
@@ -121,7 +134,7 @@ export default function StartCall({
                       // Hume will handle its own mic permission request
                     }
                     
-                    // Step 4: Connect to Hume (tone will be stopped when status becomes "connected")
+                    // Step 5: Connect to Hume (tone will be stopped when status becomes "connected")
                     await connect({
                       auth: { type: "accessToken", value: accessToken },
                       configId: selectedConfigId,

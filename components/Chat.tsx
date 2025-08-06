@@ -13,6 +13,13 @@ import { chatStorage } from "@/utils/chatStorage";
 import { MediaSessionManager } from "./MediaSessionManager";
 import { useTheme } from "next-themes";
 import { useHumeToken } from "@/hooks/useHumeToken";
+import { platformOptimizedNuclearRefresh } from "@/utils/maxNuclearRefresh";
+import dynamic from 'next/dynamic';
+
+// Load AudioAmplifier only on client side to avoid SSR issues
+const AudioAmplifier = dynamic(() => import('./AudioAmplifier').then(mod => mod.AudioAmplifier), {
+  ssr: false
+});
 
 // Internal component that monitors theme changes and disconnects on switch
 function ThemeChangeMonitor() {
@@ -109,11 +116,22 @@ export default function ClientComponent({
             return; // Don't show generic error or reload
           }
           
-          // Ignore WebSocket retry errors that follow auth failures
+          // Handle stuck WebSocket connections with nuclear refresh
           if (errorMessage.includes('A websocket connection could not be established') && 
               errorMessage.includes('Max retries (0) reached')) {
-            console.log('[Chat Error] Ignoring WebSocket retry error (likely due to previous auth failure)');
-            return; // Silent fail - user already saw the real error
+            console.log('[Chat Error] Detected stuck WebSocket connection, triggering nuclear refresh');
+            toast.info("Connection stuck - performing deep refresh...");
+            
+            setTimeout(async () => {
+              try {
+                console.log('[Chat Error] Performing nuclear refresh for stuck WebSocket');
+                await platformOptimizedNuclearRefresh();
+              } catch (error) {
+                console.error('[Chat Error] Nuclear refresh failed for WebSocket error, falling back:', error);
+                window.location.reload();
+              }
+            }, 1000);
+            return;
           }
           
           // Check for specific chat group ID error codes
@@ -136,14 +154,23 @@ export default function ClientComponent({
               toast.info("Chat session is already active elsewhere");
             }
             
-            // Force a page reload to reset the VoiceProvider
-            setTimeout(() => window.location.reload(), 1500);
+            // Force nuclear refresh to completely reset the VoiceProvider and clear stuck states
+            setTimeout(async () => {
+              try {
+                console.log('[Chat Error] Triggering nuclear refresh for chat group error');
+                await platformOptimizedNuclearRefresh();
+              } catch (error) {
+                console.error('[Chat Error] Nuclear refresh failed, falling back to normal reload:', error);
+                window.location.reload();
+              }
+            }, 1500);
           } else {
             // Show the normal error message for other errors
             toast.error(divinifyError(error.message));
           }
         }}
       >
+        <AudioAmplifier />
         <ChatMetadataMonitor />
         <MediaSessionManager />
         <ThemeChangeMonitor />

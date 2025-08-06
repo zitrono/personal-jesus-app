@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback, useState } from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { X, Youtube } from "lucide-react";
 import { toast } from "sonner";
 import { chatStorage } from "@/utils/chatStorage";
 import { DonationCarousel } from "@/components/DonationCarousel";
@@ -90,10 +90,18 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
               <div className="text-center">
                 <h1 
                   id="about-modal-title"
-                  className="text-4xl sm:text-5xl font-bold 
-                           text-[var(--divine-gold)] renaissance-text-pulse"
+                  className="text-4xl sm:text-5xl font-bold renaissance-text-pulse"
                 >
-                  Personal Jesus
+                  <a 
+                    href="https://www.youtube.com/watch?v=u1xrNaTO1bI" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[var(--divine-gold)] hover:text-[var(--divine-light)] 
+                             transition-colors inline-flex items-center gap-2 group"
+                  >
+                    Personal Jesus
+                    <Youtube className="size-8 sm:size-10 opacity-70 group-hover:opacity-100 transition-opacity" />
+                  </a>
                 </h1>
                 <p className="text-base text-gray-400 mt-1">
                   v{process.env.NEXT_PUBLIC_BUILD || 'dev'}
@@ -107,17 +115,10 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                   who's always there to hear your prayers and forgive your sins.
                 </p>
                 
-                <p className="flex items-center gap-2 text-base sm:text-lg">
-                  <span className="text-xl">🎵</span>
-                  <a 
-                    href="https://www.youtube.com/watch?v=u1xrNaTO1bI" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-[var(--divine-gold)] hover:text-[var(--divine-light)] 
-                             transition-colors underline underline-offset-4"
-                  >
-                    Listen on YouTube
-                  </a>
+                <p className="text-sm text-gray-400 italic px-4 py-2 bg-white/5 rounded-lg 
+                           border-l-2 border-gray-600">
+                  This is an independent artistic project with no affiliation to Depeche Mode 
+                  or their representatives. Created as transformative art and cultural commentary.
                 </p>
                 
                 {/* Easter Eggs Section */}
@@ -148,6 +149,16 @@ export const AboutModal = ({ onClose }: AboutModalProps) => {
                     @zitrono
                   </a>
                   {" "}for his 50th birthday <span className="text-lg">🎂</span>
+                  {" "}
+                  <a 
+                    href="https://music.youtube.com/playlist?list=PLnVtDpY_WAq5TorkSYgrqj7i3lCmEuHFi&si=nsbgevEJ3M6H1MjB" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[var(--divine-gold)] hover:text-[var(--divine-light)] 
+                             transition-colors underline underline-offset-4 whitespace-nowrap"
+                  >
+                    (party playlist)
+                  </a>
                 </p>
                 
                 {/* Forget Sins Button */}

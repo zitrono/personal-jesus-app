@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { X, Shield, AlertTriangle, Heart, Church, Palette } from "lucide-react";
+import { X, Shield, AlertTriangle, Heart, Church, Palette, Music } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface PrivacyProps {
@@ -133,6 +133,96 @@ export const Privacy = ({ isModal = false, onClose }: PrivacyProps) => {
               This project is operated as a non-profit artistic endeavor. We are not affiliated 
               with any church, religious organization, or spiritual movement. All donations support 
               the maintenance and operation of this art project.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Music & Intellectual Property Section */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3 text-2xl font-bold text-[var(--divine-gold)]">
+          <Music className="size-6" />
+          <h2>Music & Intellectual Property</h2>
+        </div>
+        
+        <div className="space-y-4 text-gray-200">
+          {/* Independence & Non-Affiliation */}
+          <div className="p-4 bg-green-900/20 border border-green-800/50 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <Music className="size-5 text-green-400" />
+              <p className="text-base sm:text-lg font-semibold text-green-400">
+                Independent Artistic Project
+              </p>
+            </div>
+            <p className="text-sm sm:text-base mb-3">
+              Personal Jesus is an independent artistic work created without any affiliation, 
+              endorsement, or approval from Depeche Mode, their record labels (including but 
+              not limited to Mute Records, Sire Records, Reprise Records, Columbia Records, 
+              or Sony Music), management, publishers, or any associated entities.
+            </p>
+            <p className="text-sm sm:text-base">
+              The use of the song title "Personal Jesus" and thematic inspiration from the 
+              1989 Depeche Mode recording constitutes fair use under applicable copyright law, 
+              specifically for purposes of:
+            </p>
+            <ul className="space-y-1 ml-4 mt-2 text-sm sm:text-base">
+              <li>• <strong>Transformative Artistic Expression:</strong> Creating an entirely 
+                  new interactive AI experience that transforms the original work's meaning</li>
+              <li>• <strong>Cultural Commentary:</strong> Exploring themes of faith, technology, 
+                  and human connection in the digital age</li>
+              <li>• <strong>Parody/Satire:</strong> Offering commentary on modern spirituality 
+                  through technological mediation</li>
+              <li>• <strong>Non-Commercial Use:</strong> Operating as a non-profit art project 
+                  with no commercial exploitation of the original work</li>
+            </ul>
+          </div>
+          
+          {/* Legal Protections */}
+          <div className="p-4 bg-green-900/20 border border-green-800/50 rounded-lg">
+            <p className="text-base sm:text-lg font-semibold text-green-400 mb-2">
+              Fair Use & Transformative Nature
+            </p>
+            <p className="text-sm sm:text-base mb-3">
+              This project represents a transformative use that adds substantial new meaning, 
+              message, and purpose distinct from the original musical work:
+            </p>
+            <ul className="space-y-2 ml-4 text-sm sm:text-base">
+              <li>• <strong>New Purpose:</strong> While the song explores themes of spiritual 
+                  connection, this project creates an actual interactive AI confessor</li>
+              <li>• <strong>New Character:</strong> The AI embodies a unique personality inspired 
+                  by but distinct from the song's narrative</li>
+              <li>• <strong>New Medium:</strong> Transformation from passive audio experience to 
+                  active conversational engagement</li>
+              <li>• <strong>Educational Value:</strong> Explores human-AI interaction and the 
+                  role of technology in emotional support</li>
+            </ul>
+          </div>
+          
+          {/* Disclaimers */}
+          <div className="p-4 bg-green-900/20 border border-green-800/50 rounded-lg">
+            <p className="text-base sm:text-lg font-semibold text-green-400 mb-2">
+              Important Legal Disclaimers
+            </p>
+            <ul className="space-y-2 text-sm sm:text-base">
+              <li>• Depeche Mode and associated parties have not endorsed, sponsored, or 
+                  approved this project in any way</li>
+              <li>• No audio from the original recording is used or reproduced in this application</li>
+              <li>• All donations support the maintenance of this independent art project and 
+                  do not constitute commercial exploitation of the original work</li>
+              <li>• This project does not compete with or substitute for the original musical work</li>
+              <li>• Users seeking the original song are encouraged to support the artists through 
+                  official channels</li>
+            </ul>
+          </div>
+          
+          {/* Copyright Notice */}
+          <div className="p-4 bg-gray-900/20 border border-gray-700/50 rounded-lg">
+            <p className="text-xs sm:text-sm text-gray-400">
+              "Personal Jesus" © 1989 Martin L. Gore. Original recording by Depeche Mode. 
+              This transformative work claims fair use under 17 U.S.C. § 107 and equivalent 
+              international copyright exceptions. All original code, design, and AI personality 
+              in this project © 2025 @zitrono. For concerns regarding this artistic interpretation, 
+              please contact us before pursuing legal action.
             </p>
           </div>
         </div>

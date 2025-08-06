@@ -98,6 +98,38 @@ self.addEventListener('message', evt => {
   if (evt.data === 'SKIP_WAITING') {
     console.log('[SW] Received SKIP_WAITING, activating new version');
     self.skipWaiting();
+  } else if (evt.data === 'NUCLEAR_REFRESH') {
+    console.log('[SW] Received NUCLEAR_REFRESH, performing maximum cleanup');
+    
+    // Perform nuclear cleanup within service worker context
+    evt.waitUntil((async () => {
+      try {
+        // Clear all caches from service worker side
+        const cacheNames = await caches.keys();
+        console.log(\`[SW Nuclear] Deleting \${cacheNames.length} caches\`);
+        await Promise.all(cacheNames.map(name => caches.delete(name)));
+        
+        // Send confirmation back to client
+        const clients = await self.clients.matchAll();
+        clients.forEach(client => {
+          client.postMessage({ type: 'NUCLEAR_REFRESH_COMPLETE' });
+        });
+        
+        console.log('[SW Nuclear] Cache cleanup complete, unregistering self');
+        
+        // Unregister self as final step
+        self.registration.unregister();
+        
+      } catch (error) {
+        console.error('[SW Nuclear] Cleanup failed:', error);
+        
+        // Send error back to client
+        const clients = await self.clients.matchAll();
+        clients.forEach(client => {
+          client.postMessage({ type: 'NUCLEAR_REFRESH_ERROR', error: error.message });
+        });
+      }
+    })());
   }
 });
 `;
